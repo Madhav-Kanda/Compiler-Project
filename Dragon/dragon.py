@@ -1,7 +1,5 @@
 import sys
-import Scanner
-import TokenType
-import Token
+from Scanner import Scanner
 
 class Dragon:
     """
@@ -30,27 +28,29 @@ class Dragon:
             Dragon.run(line)
             Dragon.hadError = False
             
-    def run(self,source):
-        scanner = Scanner()
+    def run(source):
+        scanner = Scanner(source)
         tokens = scanner.scanTokens()
         
         for token in tokens:
-            print(token)
+            print(token.type)
             
     def error(line, message):
         Dragon.report(line, "", message)
         
     def report(line, where, message):
-        print("[line" + line + "] Error" + where + ": " + message)
+        print("[line" + str(line) + "] Error" + str(where) + ": " + message)
         Dragon.hadError = True
         
 def main():
-    if sys.argv>2:
+    if len(sys.argv)>2:
         print("more than 2 arguments are not allowed")
         
-    elif sys.argv==2:
+    elif len(sys.argv)==2:
         Dragon.runFile(sys.argv[1])
         
     else:
         Dragon.runPrompt()
     
+if __name__ == "__main__":
+    main()

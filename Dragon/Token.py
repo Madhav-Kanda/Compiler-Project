@@ -1,5 +1,3 @@
-import dragon
-
 class Token:
     """
     it has all reqired information to represent 1 token

@@ -1,7 +1,6 @@
-import dragon
 from enum import Enum
 
-class TokenType:
+class TokenType(Enum):
     # single character tokens
     LEFT_PAREN = 0
     RIGHT_PAREN = 1 
@@ -14,6 +13,7 @@ class TokenType:
     SEMICOLON =8 
     SLASH =9 
     STAR = 10
+    EOF = 43
     
     # One or two character tokens.
     BANG = 11 
@@ -35,7 +35,6 @@ class TokenType:
     CLASS = 23
     ELSE = 24 
     FALSE = 25
-    FUN = 26
     FOR = 27
     IF = 28
     NIL = 29
@@ -48,3 +47,7 @@ class TokenType:
     IN = 36 # for let x = 3 in x*x this type of instructions in required 
     WHILE  = 37
     VAR = 38
+    INT = 39
+    BOOL = 40
+    FLOAT = 41
+    MUTE = 42

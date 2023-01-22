@@ -7,24 +7,15 @@ Mut variables, let expression, and rest all things like var , const, data types 
 
 
 1. Data types
-Our language will contain the following 4 data types: int, fraction, boolean and string.
+Our language will contain the following 4 data types: int, float, boolean and string.
 Int: an integer from the range -1018 to + 1018.
-Fraction: of the form x/y, truncate up to 6 decimal places.
+Float: of the form x/y, truncate up to 6 decimal places.
 Bool: True or false
 String: series of characters. Eg: “hello world”, “dragon”, “123abc”.
 
 
-2. const keyword
-In dragon, the “const” keyword will be used to indicate that a variable or an object’s value cannot be altered, if tried to do so, the interpreter will generate an error.
-Below is the syntax to declare a constant variable.
-
-
-        const int a = 5;
-        a = 6 // generates error as we tried to change the value of a constant variable
-
-
-3. var keyword
-The “var” keyword is used to declare variables. When the variable is declared used var, the interpreter will create a new variable in the current scope with the given name. 
+2. var keyword
+The “var” keyword is used to declare dynamically typed variables. When the variable is declared used var, the interpreter will create a new variable in the current scope with the given name. 
 
 
 var x;
@@ -47,8 +38,8 @@ function myFunction() {
 print(x); // ReferenceError: x is not defined
 
 
-4. Let keyword
-‘Let’ will be used to declare variables similar to ‘var’, but the key difference between let and var is that let is block scoped whereas var is function scoped. 
+3. Let keyword
+‘Let’ will be used to declare variables similar to ‘var’. let is not block scoped, it will be removed when expression is returned. 
 
 
 Eg:
@@ -59,10 +50,7 @@ Eg:
 print(x); // ReferenceError: x is not defined
 
 
-Unlike var, when the interpreter will encounter a variable declaration with the ‘let’ keyword, it will create a new variable with the given name if a variable with the same name does not exist, else it will generate ‘syntax error’. Unlike const, let variable can be re-assigned.
-
-
-5. Some valid uses of let
+4. Some valid uses of let
 Let b = 2 in let a = 5 in a * b;
 Let a = 5 in let a = a + a in a * a;
 Let a = 5 in let b = a * a in b * b;
@@ -73,7 +61,7 @@ Let a = 5 in Let b = 6 in
 a * b * (let b = 7 in a + b) + (let a = 7 in a * a + b);
 
 
-6. Mutable variables
+5. Mutable variables
 If the “mut” keyword is used after let, then the variable declared becomes mutable, otherwise not.
 
 
@@ -87,7 +75,7 @@ While i <= 10 {
         }
         }
         
-7. If - else condition
+6. If - else condition
 if (cond 1) {
         expression 1;
         expression 2;
@@ -102,7 +90,7 @@ else {
 }
 
 
-8. While loop
+7. While loop
 This is an entry controlled loop.
 
 
@@ -115,7 +103,7 @@ This is an entry controlled loop.
 
 
 
-9. For loop
+8. For loop
 This is also an entry controlled loop, with an initialization expression, test condition and an update expression.
 
 
@@ -126,12 +114,12 @@ for (let i = 0; i <= 10; i ++) {
 }
 
 
-10. Both dynamic and statically typed
+9. Both dynamic and statically typed
 Our language dragon will support dynamic typing i.e. the type of the variable will be determined at the time of run time, and the type of the variable can be changed during the execution of the program. 
 
 
 Eg:
-Let a = 5;
+var a = 5;
 a = “hello”
 
 

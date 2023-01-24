@@ -51,3 +51,4 @@ class TokenType(Enum):
     BOOL = 40
     FLOAT = 41
     MUTE = 42
+    FUN = 43

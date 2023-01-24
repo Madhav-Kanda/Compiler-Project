@@ -22,9 +22,10 @@ class Scanner :
                 "int" : TokenType.INT,
                 "bool" : TokenType.BOOL,
                 "float" : TokenType.FLOAT,
-                "mute" : TokenType.MUTE  
+                "mute" : TokenType.MUTE,
+                "fun" : TokenType.FUN
                 }  
-    def __init__(self, source, tokens=[], start=0, current=0, line=1):
+    def __init__(self, source,tokens=[], start=0, current=0, line=1):
         self.source = source
         self.tokens = tokens
         self.start = start

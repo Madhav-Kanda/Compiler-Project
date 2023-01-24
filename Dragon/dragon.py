@@ -1,5 +1,10 @@
 import sys
 from Scanner import Scanner
+from Token import *
+from TokenType import *
+from Parser import *
+from ASTPrinter import *
+
 
 class Dragon:
     """
@@ -9,7 +14,6 @@ class Dragon:
     """
     
     hadError = False
-    
     def __init__(self):
         pass
     
@@ -31,16 +35,25 @@ class Dragon:
     def run(source):
         scanner = Scanner(source)
         tokens = scanner.scanTokens()
-        
-        for token in tokens:
-            print(token.type)
+        parse = Parser(tokens)
+        expression = parse.parse()
+        if (expression is None) and len(tokens)!=0: return
+        if Dragon.hadError : return
+        print(AstPrinter.prin(expression))
             
-    def error(line, message):
+    def error(line : int, message):
         Dragon.report(line, "", message)
+        
+    def error(token : Token,message):
+        if token.type == TokenType.EOF:
+            Dragon.report(token.line, "at end", message)
+        else :
+            Dragon.report(token.line, " at '"+ token.lexene +"'", message)
         
     def report(line, where, message):
         print("[line" + str(line) + "] Error" + str(where) + ": " + message)
-        Dragon.hadError = True
+        Dragon.hadError =True
+        
         
 def main():
     if len(sys.argv)>2:

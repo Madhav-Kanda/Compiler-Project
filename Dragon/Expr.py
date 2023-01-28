@@ -31,6 +31,15 @@ class Unary:
     
     def accept(self):
         return AstPrinter.visit_unary_expr(self)
+
+@dataclass  
+class Variable:
+    name : Token
+    
+@dataclass
+class Assign:
+    name : Token
+    value : 'Expr'
  
    
 Expr = Binary | Grouping | Literal | Unary

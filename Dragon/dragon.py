@@ -17,6 +17,10 @@ class Dragon:
     def __init__(self):
         pass
     
+    @staticmethod
+    def set_x(val):
+        Dragon.hadError = val
+    
     def runFile(path):
         file = open(path,mode='r')
         all_of_it = file.read()
@@ -52,7 +56,7 @@ class Dragon:
         
     def report(line, where, message):
         print("[line" + str(line) + "] Error" + str(where) + ": " + message)
-        Dragon.hadError =True
+        Dragon.set_x(True)
         
         
 def main():

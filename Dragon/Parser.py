@@ -1,5 +1,6 @@
 from TokenType import *
 from Expr import *
+from Stmt import *
 
 
 class Parser:
@@ -16,15 +17,69 @@ class Parser:
     
     # return head of the root node 
     def parse(self):
-        try:
-            x = self.expression()
-            return x
+        # statements = []
+        # while(not self.isAtEnd()) :
+        #     statements.append(self.statement())
+        # return statements
+        try :
+            expr = self.expression()
+            return expr
         except :
+            dragon.Dragon.hadError = True
             return None
-                
+            
+    
+    def statement(self) :
+        # implement statements
+        return self.expressionStatement()
+    
+    def expressionStatement(self):
+        expr = self.expression()
+        self.consume(TokenType.SEMICOLON, "Expect ; after value")
+        return Stmt.Expression(expr)
+    
+    def declaration(self):
+        try :
+            if (self.match([TokenType.VAR,TokenType.INT,TokenType.FLOAT, TokenType.STRING])) : return self.vardeclaration(self.previous())
+            
+            return self.statement()
+        except :
+            self.synchronize()
+            return None
+        
+    def varDeclaration(self, type):
+        name = self.consume(TokenType.IDENTIFIER,"Expect variable name")
+        initailizer = None
+        if (self.match(TokenType.EQUAL)):
+            initailizer = self.expression()
+        
+        self.consume(TokenType.SEMICOLON,"expect semicolon")
+        vartype = None
+        match type:
+            case TokenType.INT : vartype = VarType.INT
+            case TokenType.STRING : vartype = VarType.STRING
+            case TokenType.FLOAT : vartype = VarType.FLOAT
+            case TokenType.VAR : vartype = VarType.DYNAMIC
+            
+        return Var(name,vartype,initailizer)
+    
+    def assignment(self):
+        expr = self.equality()
+        if self.match(TokenType.EQUAL):
+            equals = self.previous()
+            value = self.assignment()
+            
+            if isinstance(expr,Variable):
+                name = expr.name
+                return Assign(name,value)
+            
+            self.error(equals, "Invalid assignment target")
+            
+        return expr
+            
     # parse the expression and return root of AST
     def expression(self):
-        return self.equality()
+        return self.assignment()
     
     # parse equality operator
     def equality(self):
@@ -110,6 +165,7 @@ class Parser:
         if self.match([TokenType.NIL]) : return Literal(None)
         
         if self.match([TokenType.NUMBER,TokenType.STRING]) : return Literal(self.previous().literal)
+        if self.match([TokenType.IDENTIFIER]) : return Variable(self.previous())
         
         if self.match([TokenType.LEFT_PAREN]) : 
             expr = self.expression()
@@ -120,7 +176,7 @@ class Parser:
         
     def consume(self,type, message):
         if self.check(type) : return self.advance()
-        
+        dragon.Dragon.set_x(True)
         raise self.error(self.peek(), message)
     
     def error(self,token,message):

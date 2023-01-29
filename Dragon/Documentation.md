@@ -98,7 +98,7 @@ number or string.
          
 ### Implementation
     We have implemented the ASTPrinter class. Upon calling its prin function, it calls the correponding accept method of each
-    expression. This accept function further calls the visit_ method corresponding to its type. In visit_ method's implementation, the literal are directly
-    converted to the string whereas in other expressions we call the parenthesize() helper method. It takes name and list of
-    subexpressions and wraps them all in paranthesis. This returns the string expression to be printed.
+    expression. This accept function further calls the visit_ method corresponding to its type. In visit_ method's implementation, 
+    the literal are directly converted to the string whereas in other expressions we call the parenthesize() helper method. It 
+    takes name and list of subexpressions and wraps them all in paranthesis. This returns the string expression to be printed.
     

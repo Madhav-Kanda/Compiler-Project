@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from Expr import *
 from enum import Enum
+from typing import Optional
 
 class VarType(Enum):
     INT = 0
@@ -16,9 +17,20 @@ class Expression:
 class Var:
     name : Token
     type : VarType
-    initializer : 'Expr'    
-    
-Stmt = Expression | Var 
+    initializer : 'Expr'   
 
-    
+@dataclass
+class If:
+    condition: 'Expr'
+    thenBranch: 'Stmt'
+    elseBranch: Optional['Stmt']
+
+
+@dataclass
+class While:
+    condition: 'Expr'
+    body: 'Stmt'
+
+
+Stmt = Expression | Var | If |  While
     

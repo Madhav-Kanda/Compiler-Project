@@ -86,5 +86,13 @@ number or string.
      7. Error: 
         Returns all the errors if any in the program.
  
-    
+
+## Printing the AST Tree
+
+   To convert the implemented AST tree into a string representing nesting structure of the tree, we can use the AstPrinter from ASTPrinter. Given an AST tree of the form:
+         image.png
+      we will convert it to produce:
+         (*(-123)(group 45.67))
+
+   In the implementation the literal are directly converted to the string whereas in other expressions we call the parenthesize() helper method. It takes name and list of subexpressions and wraps them all in paranthesis. This returns the string expression to be printed.
     

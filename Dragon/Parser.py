@@ -30,13 +30,50 @@ class Parser:
             
     
     def statement(self) :
-        # implement statements
+        # implement statements 
+        if self.match(TokenType.PRINT):
+            return self.printStatement()
+        if self.match(TokenType.IF):
+            return self.ifStatement()
+        if self.match(TokenType.WHILE):
+            return self.whileStatement()
+        
         return self.expressionStatement()
+
+    # print statement
+    def printStatement(self):
+        value = self.expression()
+        self.consume(TokenType.SEMICOLON,"Expect ';' after value")
+        return Stmt.Print(value)
     
+    # if statement
+    def ifStatement(self):
+        self.consume(TokenType.LEFT_PAREN,"Expect '(' after 'if'")
+        condition = self.expression()
+        self.consume(TokenType.RIGHT_PAREN,"Expect ')' after condition")
+        thenBranch = self.statement()
+        elseBranch = None
+
+        if self.match(TokenType.ELSE):
+            elseBranch = self.statement()
+        
+        return Stmt.If(condition,thenBranch,elseBranch)
+
+    # while statement
+    def whileStatement(self):
+        self.consume(TokenType.LEFT_PAREN,"Expect '(' after 'while'")
+        condition = self.expression()
+        self.consume(TokenType.RIGHT_PAREN,"Expect ')' after condition")
+        body = self.statement()
+
+        return Stmt.While(condition,body)
+    
+    # expression statement
     def expressionStatement(self):
         expr = self.expression()
         self.consume(TokenType.SEMICOLON, "Expect ; after value")
         return Stmt.Expression(expr)
+    
     
     def declaration(self):
         try :

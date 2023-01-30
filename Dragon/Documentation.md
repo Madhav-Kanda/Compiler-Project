@@ -86,5 +86,19 @@ number or string.
      7. Error: 
         Returns all the errors if any in the program.
  
+
+## Printing the AST Tree
+
+    To convert the implemented AST tree into a string representing nesting structure of the tree, 
+    we can use the AstPrinter from ASTPrinter class. Given an AST tree of the form:
     
+   <img width="125" alt="image" src="https://user-images.githubusercontent.com/76394914/215323892-aad3c54b-a9e6-4842-ac66-9d4f4c4771c0.png">
+
+     We will convert it to produce (*(-123)(group 45.67))
+         
+### Implementation
+    We have implemented the ASTPrinter class. Upon calling its prin function, it calls the correponding accept method of each
+    expression. This accept function further calls the visit_ method corresponding to its type. In visit_ method's implementation, 
+    the literal are directly converted to the string whereas in other expressions we call the parenthesize() helper method. It 
+    takes name and list of subexpressions and wraps them all in paranthesis. This returns the string expression to be printed.
     

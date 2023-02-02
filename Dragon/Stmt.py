@@ -22,15 +22,21 @@ class Var:
 @dataclass
 class If:
     condition: 'Expr'
-    thenBranch: 'Stmt'
+    thenBranch: 'Stmt' 
     elseBranch: Optional['Stmt']
-
 
 @dataclass
 class While:
     condition: 'Expr'
-    body: 'Stmt'
+    body: 'Stmt' 
 
+@dataclass   
+class Block:
+    body : list['Stmt']
 
-Stmt = Expression | Var | If |  While
+@dataclass
+class Print:
+    value : 'Expr'
+
+Stmt = Expression| Print | Var | If |  While | Block 
     

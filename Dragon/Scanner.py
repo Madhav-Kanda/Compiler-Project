@@ -23,7 +23,9 @@ class Scanner :
                 "bool" : TokenType.BOOL,
                 "float" : TokenType.FLOAT,
                 "mute" : TokenType.MUTE,
-                "fun" : TokenType.FUN
+                "fun" : TokenType.FUN,
+                "print": TokenType.PRINT,
+                "string" : TokenType.STRING
                 }  
     def __init__(self, source,tokens=[], start=0, current=0, line=1):
         self.source = source
@@ -121,12 +123,14 @@ class Scanner :
     
     def number(self):
         while self.isDigit(self.peek()): self.advance()
-        
+        check = False
         if self.peek() == '.' and self.isDigit(self.peekNext()):
+            check = True
             self.advance()
             while self.isDigit(self.peek()): self.advance()
         
-        self.addToken(TokenType.NUMBER, float(self.source[self.start:self.current]))
+        if check : self.addToken(TokenType.NUMBER, float(self.source[self.start:self.current]))
+        else : self.addToken(TokenType.NUMBER, int(self.source[self.start:self.current]))
     
     def string(self):
         while self.peek() != '"' and not self.isAtEnd():

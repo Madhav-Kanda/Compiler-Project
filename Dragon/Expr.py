@@ -20,7 +20,7 @@ class Grouping:
     
 @dataclass
 class Literal:
-    value : bool | int | float
+    value : bool | int | float | str
     def accept(self):
         return AstPrinter.visit_literal_expr(self)
     

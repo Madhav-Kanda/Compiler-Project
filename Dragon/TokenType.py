@@ -52,3 +52,4 @@ class TokenType(Enum):
     FLOAT = 41
     MUTE = 42
     FUN = 43
+    PRINT = 44

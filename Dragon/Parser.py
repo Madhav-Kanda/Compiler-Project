@@ -12,39 +12,50 @@ class Parser:
         pass
     
     current =0 
-    def __init__(self, tokens):
+    def __init__(self, tokens, dragon):
         self.tokens = tokens
+        self.dragon = dragon
     
     # return head of the root node 
     def parse(self):
-        # statements = []
-        # while(not self.isAtEnd()) :
-        #     statements.append(self.statement())
-        # return statements
-        try :
-            expr = self.expression()
-            return expr
-        except :
-            dragon.Dragon.hadError = True
-            return None
+        statements = []
+        while(not self.isAtEnd()) :
+            statements.append(self.statement())
+        return statements
             
     
     def statement(self) :
         # implement statements 
-        if self.match(TokenType.PRINT):
+        if self.match([TokenType.PRINT]):
             return self.printStatement()
-        if self.match(TokenType.IF):
+        if self.match([TokenType.IF]):
             return self.ifStatement()
-        if self.match(TokenType.WHILE):
+        if self.match([TokenType.WHILE]):
             return self.whileStatement()
+        if self.match([TokenType.LEFT_BRACE]):
+            return self.blockStatement()
+        if self.match([TokenType.INT,TokenType.STRING,TokenType.FLOAT,TokenType.VAR]):
+            return self.declaration()
         
         return self.expressionStatement()
+    
+    def blockStatement(self):
+        ans = Block(body = [])
+        check =  self.match([TokenType.RIGHT_BRACE])
+        while not check and not self.isAtEnd():
+            ans.body.append(self.statement())
+            check =  self.match([TokenType.RIGHT_BRACE])
+        if not check :
+            self.consume(TokenType.RIGHT_BRACE, "Expected '}'")
+        return ans
+            
+        
 
     # print statement
     def printStatement(self):
         value = self.expression()
         self.consume(TokenType.SEMICOLON,"Expect ';' after value")
-        return Stmt.Print(value)
+        return Print(value)
     
     # if statement
     def ifStatement(self):
@@ -54,40 +65,35 @@ class Parser:
         thenBranch = self.statement()
         elseBranch = None
 
-        if self.match(TokenType.ELSE):
+        if self.match([TokenType.ELSE]):
             elseBranch = self.statement()
         
-        return Stmt.If(condition,thenBranch,elseBranch)
+        return If(condition,thenBranch,elseBranch)
 
     # while statement
     def whileStatement(self):
+        
         self.consume(TokenType.LEFT_PAREN,"Expect '(' after 'while'")
         condition = self.expression()
         self.consume(TokenType.RIGHT_PAREN,"Expect ')' after condition")
         body = self.statement()
 
-        return Stmt.While(condition,body)
+        return While(condition,body)
     
     # expression statement
     def expressionStatement(self):
         expr = self.expression()
         self.consume(TokenType.SEMICOLON, "Expect ; after value")
-        return Stmt.Expression(expr)
+        return Expression(expr)
     
     
     def declaration(self):
-        try :
-            if (self.match([TokenType.VAR,TokenType.INT,TokenType.FLOAT, TokenType.STRING])) : return self.vardeclaration(self.previous())
-            
-            return self.statement()
-        except :
-            self.synchronize()
-            return None
+        return self.varDeclaration(self.previous().type)
         
     def varDeclaration(self, type):
         name = self.consume(TokenType.IDENTIFIER,"Expect variable name")
         initailizer = None
-        if (self.match(TokenType.EQUAL)):
+        if (self.match([TokenType.EQUAL])):
             initailizer = self.expression()
         
         self.consume(TokenType.SEMICOLON,"expect semicolon")
@@ -97,12 +103,11 @@ class Parser:
             case TokenType.STRING : vartype = VarType.STRING
             case TokenType.FLOAT : vartype = VarType.FLOAT
             case TokenType.VAR : vartype = VarType.DYNAMIC
-            
         return Var(name,vartype,initailizer)
     
     def assignment(self):
         expr = self.equality()
-        if self.match(TokenType.EQUAL):
+        if self.match([TokenType.EQUAL]):
             equals = self.previous()
             value = self.assignment()
             
@@ -213,11 +218,11 @@ class Parser:
         
     def consume(self,type, message):
         if self.check(type) : return self.advance()
-        dragon.Dragon.set_x(True)
+        self.dragon.hadError = True
         raise self.error(self.peek(), message)
     
     def error(self,token,message):
-        dragon.Dragon.error(token,message)
+        self.dragon.error(token,message)
         return self.ParseError()
     # synchronizing errors if we got an error don't kill the program try find other errors 
     # to do this if we got error in 1st line skip that line and go to next line
@@ -236,5 +241,3 @@ class Parser:
                 case TokenType.RETURN: return
             
             self.advance()
-            
-import dragon

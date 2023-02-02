@@ -4,6 +4,7 @@ from Token import *
 from TokenType import *
 from Parser import *
 from ASTPrinter import *
+from Interpreter import *
 
 
 class Dragon:
@@ -13,61 +14,58 @@ class Dragon:
     input and what compiler want to suggest to a user/programmer
     """
     
-    hadError = False
     def __init__(self):
-        pass
-    
-    @staticmethod
-    def set_x(val):
-        Dragon.hadError = val
-    
-    def runFile(path):
+        self.hadError = False    
+        
+    def runFile(self,path):
         file = open(path,mode='r')
         all_of_it = file.read()
         file.close()
-        Dragon.run(all_of_it)
-        if Dragon.hadError : exit(-1)
+        self.run(all_of_it)
+        if self.hadError : exit(-1)
         
-    def runPrompt():        
+    def runPrompt(self):        
         while True:
             print(">> ")
             line = input()
             if line == None : break
-            Dragon.run(line)
-            Dragon.hadError = False
+            self.run(line)
+            self.hadError = False
             
-    def run(source):
+    def run(self,source):
         scanner = Scanner(source)
         tokens = scanner.scanTokens()
-        parse = Parser(tokens)
-        expression = parse.parse()
-        if (expression is None) and len(tokens)!=0: return
-        if Dragon.hadError : return
-        print(AstPrinter.prin(expression))
+        parse = Parser(tokens, self)
+        statements = parse.parse()
+        if self.hadError : return
+        interpreter = Interpreter(statements,self)
+        interpreter.interprete()
+        
             
-    def error(line : int, message):
-        Dragon.report(line, "", message)
+    def error(self,line : int, message):
+        self.report(line, "", message)
         
-    def error(token : Token,message):
+    def error(self,token : Token,message):
         if token.type == TokenType.EOF:
-            Dragon.report(token.line, "at end", message)
+            self.report(token.line, "at end", message)
         else :
-            Dragon.report(token.line, " at '"+ token.lexene +"'", message)
+            self.report(token.line, " at '"+ token.lexeme +"'", message)
         
-    def report(line, where, message):
+    def report(self,line, where, message):
         print("[line" + str(line) + "] Error" + str(where) + ": " + message)
-        Dragon.set_x(True)
+        self.hadError = True
         
         
 def main():
+    drag = Dragon()
     if len(sys.argv)>2:
         print("more than 2 arguments are not allowed")
         
     elif len(sys.argv)==2:
-        Dragon.runFile(sys.argv[1])
+        drag.runFile(sys.argv[1])
         
     else:
-        Dragon.runPrompt()
+        drag.runPrompt()
     
 if __name__ == "__main__":
     main()

@@ -47,6 +47,14 @@ class Assign:
     def accept(self):
         return AstPrinter.visit_assign_expr(self)
  
+@dataclass
+class Logical:
+    left : 'Expr'
+    operator : Token
+    right : 'Expr'
+
+    def accept(self):
+        return AstPrinter.visit_logical_expr(self)
    
 Expr = Binary | Grouping | Literal | Unary
 

@@ -57,6 +57,13 @@ class Interpreter:
                 final_value = self.evalExpression(value)
                 self.env.changeValue(name,final_value)
                 return final_value
+            case Logical(left,operator,right):
+                left_value = self.evalExpression(left)
+                if operator.lexeme == "or":
+                    if left_value: return left_value
+                else:
+                    if not left_value: return left_value
+                return self.evalExpression(right)
                 
     def evalBinary(self,expression):
         

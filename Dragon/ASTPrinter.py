@@ -20,6 +20,9 @@ class AstPrinter:
     def visit_unary_expr( expr: Expr.Unary) -> str:
         return AstPrinter.parenthesize(expr.operator.lexeme, [expr.right])
 
+    def visit_logical_expr(expr: Expr.Logical) -> str:
+        return AstPrinter.parenthesize(expr.operator.lexeme, [expr.left, expr.right])
+    
     def parenthesize( name: str, exprs) -> str:
         parts = []
         parts.append("(")

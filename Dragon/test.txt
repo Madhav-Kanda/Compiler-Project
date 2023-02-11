@@ -1,7 +1,6 @@
+print true or true;
 int a = 5;
-
-while ( a!= -1 ){
-    var a = a-5 ;
+while ( a>0 ){
     print a;
     a = a - 1;
 }

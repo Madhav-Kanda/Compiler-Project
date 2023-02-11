@@ -106,17 +106,37 @@ class Parser:
         return Var(name,vartype,initailizer)
     
     def assignment(self):
-        expr = self.equality()
+
+        expr = self.or_()
         if self.match([TokenType.EQUAL]):
-            equals = self.previous()
-            value = self.assignment()
+                equals = self.previous()
+                value = self.assignment()
+                
+                if isinstance(expr,Variable):
+                    name = expr.name
+                    return Assign(name,value)
+                
+                self.error(equals, "Invalid assignment target")
+
             
-            if isinstance(expr,Variable):
-                name = expr.name
-                return Assign(name,value)
-            
-            self.error(equals, "Invalid assignment target")
-            
+        return expr
+        
+    # or operator
+    def or_(self):
+        expr = self.and_()
+        while(self.match([TokenType.OR])):
+            operator = self.previous()
+            right = self.and_()
+            expr = Logical(expr,operator,right)
+        return expr
+
+    #and operator
+    def and_(self):
+        expr = self.equality()
+        while(self.match([TokenType.AND])):
+            operator = self.previous()
+            right = self.equality()
+            expr = Logical(expr,operator,right)
         return expr
             
     # parse the expression and return root of AST
@@ -213,7 +233,7 @@ class Parser:
             expr = self.expression()
             self.consume(TokenType.RIGHT_PAREN,"Expect ')' after expression")
             return Grouping(expr)
-        
+        # print(self.previous())
         raise self.error(self.peek(), "Expect expression")
         
     def consume(self,type, message):

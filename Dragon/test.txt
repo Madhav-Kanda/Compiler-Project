@@ -1,2 +1,15 @@
 int a = 6<5;
 print(a);
+print 1>2;
+print 1<2;
+print 1>=2;
+print 1<=2;
+print 1==2;
+print 1!=2;
+print 1+2;
+print 1-2;
+print 1*2;
+print 1/2;
+print 1 or 2;
+print 1 and 2;
+print 0 and 1 or 1;

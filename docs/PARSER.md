@@ -21,6 +21,8 @@ Dragon language is sequence of statements. Statements uses expression to complet
 | `<=` , `>=` , `<`, `>`  | no |
 | `!=` , `==` | no |
 | `=` | right |
+| `or`| left |
+| `and` | left |
 
 language supports ifelse statements, expression statements, while statements, variable declaration statements.
 

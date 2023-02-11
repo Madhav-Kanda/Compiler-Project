@@ -75,15 +75,23 @@ number or string.
      2. Assignment:
         Assigns the value after the equals-to (=) operator to the variable type 
         before it.
-     3. Comparison:
+     3. or_:
+        Checks for and_(and) operator first. If not found, the while loop checks 
+        for multiple "or's" and assigns it to a Logical binding defined in 
+        "Expr.py". If and_(and) operator is found it goes to the and_ function.
+     4. and_: 
+        Assigns the value after the equals-to (=) operator to the variable type 
+        before it. Then the while loop checks for multiple "and's" and assigns 
+        it to a Logical binding defined in "Expr.py."
+     5. Comparison:
         Returns the expression for greater-than, less-than, greater and lesser operators.
-     4. Term:
+     6. Term:
         Parses plus and minus signs expressions.
-     5. Factor:
+     7. Factor:
         Parses multiplication and division expressions.
-     6. Unary:
+     8. Unary:
         Parses unary operators like ! and -.
-     7. Error: 
+     9. Error: 
         Returns all the errors if any in the program.
  
 

@@ -81,4 +81,9 @@ class Interpreter:
                 return self.evalExpression(expression.left)*self.evalExpression(expression.right)
             case "/":
                 return self.evalExpression(expression.left)/self.evalExpression(expression.right)
+            case "or":
+                return int(self.evalExpression(expression.left) or self.evalExpression(expression.right))
+            case "and":
+                return int(self.evalExpression(expression.left) and self.evalExpression(expression.right))
+                
                 

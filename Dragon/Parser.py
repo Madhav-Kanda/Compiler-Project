@@ -106,7 +106,7 @@ class Parser:
         return Var(name,vartype,initailizer)
     
     def assignment(self):
-        expr = self.equality()
+        expr = self.or_()
         if self.match([TokenType.EQUAL]):
             equals = self.previous()
             value = self.assignment()
@@ -118,7 +118,26 @@ class Parser:
             self.error(equals, "Invalid assignment target")
             
         return expr
+    
+        # or operator
+    def or_(self):
+        expr = self.and_()
+        while(self.match([TokenType.OR])):
+            operator = self.previous()
+            right = self.and_()
+            expr = Binary(expr,operator,right)
+        return expr
+
+    #and operator
+    def and_(self):
+        expr = self.equality()
+        while(self.match([TokenType.AND])):
+            operator = self.previous()
+            right = self.equality()
+            expr = Binary(expr,operator,right)
+        return expr
             
+    
     # parse the expression and return root of AST
     def expression(self):
         return self.assignment()

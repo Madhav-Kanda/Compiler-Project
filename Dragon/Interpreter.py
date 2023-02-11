@@ -62,17 +62,17 @@ class Interpreter:
         
         match expression.operator.lexeme:
             case "<":
-                return self.evalExpression(expression.left)<self.evalExpression(expression.right)
+                return int(self.evalExpression(expression.left)<self.evalExpression(expression.right))
             case ">":
-                return self.evalExpression(expression.left)>self.evalExpression(expression.right)
+                return int(self.evalExpression(expression.left)>self.evalExpression(expression.right))
             case "<=":
-                return self.evalExpression(expression.left)<=self.evalExpression(expression.right)
+                return int(self.evalExpression(expression.left)<=self.evalExpression(expression.right))
             case ">=":
-                return self.evalExpression(expression.left)>=self.evalExpression(expression.right)
+                return int(self.evalExpression(expression.left)>=self.evalExpression(expression.right))
             case "==":
-                return self.evalExpression(expression.left)==self.evalExpression(expression.right)
+                return int(self.evalExpression(expression.left)==self.evalExpression(expression.right))
             case "!=":
-                return not self.evalExpression(expression.left)==self.evalExpression(expression.right)
+                return int(not self.evalExpression(expression.left)==self.evalExpression(expression.right))
             case "+":
                 return self.evalExpression(expression.left)+self.evalExpression(expression.right)
             case "-":

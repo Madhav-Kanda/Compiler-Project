@@ -1,7 +1,2 @@
-int a = 5;
-
-while ( a!= -1 ){
-    var a = a-5 ;
-    print a;
-    a = a - 1;
-}
+int a = 6<5;
+print(a);

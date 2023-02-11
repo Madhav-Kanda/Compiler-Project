@@ -68,7 +68,7 @@ number or string.
      1. Expression
      2. Var
 
-  ## **Use of parser class**
+  ## **Use of Scanner class**
 
         Scanner is the first stage of a compiler. It scans the entire code and divides the code into Tokens. These tokens
         are then stored in a list made available for the Parser to work upon them for semantic analysis. It is here 

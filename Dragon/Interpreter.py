@@ -88,4 +88,7 @@ class Interpreter:
             case "/":
                 self.env.stringbystring(expression.operator, self.evalExpression(expression.left), self.evalExpression(expression.right), expression.operator.lexeme)
                 return self.evalExpression(expression.left)/self.evalExpression(expression.right)
-                
+            case "or":
+                return int(self.evalExpression(expression.left) or self.evalExpression(expression.right))
+            case "and":
+                return int(self.evalExpression(expression.left) and self.evalExpression(expression.right))

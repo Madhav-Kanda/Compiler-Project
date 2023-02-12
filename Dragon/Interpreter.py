@@ -59,33 +59,31 @@ class Interpreter:
                 return final_value
                 
     def evalBinary(self,expression):
-
-        self.env.checkTypeCompatibility(expression.operator, self.evalExpression(expression.left), self.evalExpression(expression.right), expression.operator.lexeme)
-
+        
         match expression.operator.lexeme:
             case "<":
-                return self.evalExpression(expression.left)<self.evalExpression(expression.right)
+                return int(self.evalExpression(expression.left)<self.evalExpression(expression.right))
             case ">":
-                return self.evalExpression(expression.left)>self.evalExpression(expression.right)
+                return int(self.evalExpression(expression.left)>self.evalExpression(expression.right))
             case "<=":
-                return self.evalExpression(expression.left)<=self.evalExpression(expression.right)
+                return int(self.evalExpression(expression.left)<=self.evalExpression(expression.right))
             case ">=":
-                return self.evalExpression(expression.left)>=self.evalExpression(expression.right)
+                return int(self.evalExpression(expression.left)>=self.evalExpression(expression.right))
             case "==":
-                return self.evalExpression(expression.left)==self.evalExpression(expression.right)
+                return int(self.evalExpression(expression.left)==self.evalExpression(expression.right))
             case "!=":
-                return not self.evalExpression(expression.left)==self.evalExpression(expression.right)
-
+                return int(not self.evalExpression(expression.left)==self.evalExpression(expression.right))
             case "+":
                 return self.evalExpression(expression.left)+self.evalExpression(expression.right)
-
             case "-":
-                self.env.stringbystring(expression.operator, self.evalExpression(expression.left), self.evalExpression(expression.right), expression.operator.lexeme)
                 return self.evalExpression(expression.left)-self.evalExpression(expression.right)
             case "*":
-                self.env.stringbystring(expression.operator, self.evalExpression(expression.left), self.evalExpression(expression.right), expression.operator.lexeme)
                 return self.evalExpression(expression.left)*self.evalExpression(expression.right)
             case "/":
-                self.env.stringbystring(expression.operator, self.evalExpression(expression.left), self.evalExpression(expression.right), expression.operator.lexeme)
                 return self.evalExpression(expression.left)/self.evalExpression(expression.right)
+            case "or":
+                return int(self.evalExpression(expression.left) or self.evalExpression(expression.right))
+            case "and":
+                return int(self.evalExpression(expression.left) and self.evalExpression(expression.right))
+                
                 

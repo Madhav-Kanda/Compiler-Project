@@ -8,7 +8,7 @@ class Parser:
     class for making AST tree for expressions
     """
     
-    class ParseError(Exception):
+    class ParseError(Exception): # handle errors
         pass
     
     current =0 
@@ -19,10 +19,19 @@ class Parser:
     # return head of the root node 
     def parse(self):
         statements = []
-        while(not self.isAtEnd()) :
-            statements.append(self.statement())
-        return statements
-            
+        while True: # loop until end of file
+            try: 
+                # try to parse the file
+                while (not self.isAtEnd()) : 
+                    statements.append(self.statement())
+                
+                return statements
+
+            except self.ParseError: 
+                # if there is an error in parsing
+                # synchronize the parser
+                # recovers from the error and continues parsing 
+                self.synchronize() 
     
     def statement(self) :
         # implement statements 
@@ -233,24 +242,26 @@ class Parser:
             self.consume(TokenType.RIGHT_PAREN,"Expect ')' after expression")
             return Grouping(expr)
         
-        raise self.error(self.peek(), "Expect expression")
+        raise self.error(self.peek(), "Expect expression") 
         
     def consume(self,type, message):
         if self.check(type) : return self.advance()
-        self.dragon.hadError = True
-        raise self.error(self.peek(), message)
+        self.dragon.hadError = True 
+        raise self.error(self.peek(), message) 
     
     def error(self,token,message):
         self.dragon.error(token,message)
-        return self.ParseError()
+        # return ParseError class to handle error 
+        return self.ParseError() 
+    
     # synchronizing errors if we got an error don't kill the program try find other errors 
     # to do this if we got error in 1st line skip that line and go to next line
-    def synchronize(self):
+    def synchronize(self): 
         self.advance()
-        while(not self.isAtEnd()):
-            if self.previous().type == TokenType.SEMICOLON : return
+        while(not self.isAtEnd()): # if we are not at end of the file
+            if self.previous().type == TokenType.SEMICOLON : return # if we found semicolon return
             
-            match self.peek():
+            match self.peek(): 
                 case TokenType.CLASS: return
                 case TokenType.FUN: return
                 case TokenType.VAR: return
@@ -259,4 +270,4 @@ class Parser:
                 case TokenType.WHILE: return
                 case TokenType.RETURN: return
             
-            self.advance()
+            self.advance() 

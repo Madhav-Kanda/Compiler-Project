@@ -77,7 +77,30 @@ class StackEnvironment:
                 return value[1]
             length -=1
         self.error(token, "Variable is not defined")
-        
+
+    
+    # checks the compatibility of the operations 
+    # for example: an integer cannot be added to a string, this is incompatible
+    # Type Checking
+
+    def checkTypeCompatibility(self, token, lvalue, rvalue, operator):
+        if (isinstance(lvalue, int) and isinstance(rvalue, int)) or \
+           (isinstance(lvalue, float) and isinstance(rvalue, float)) or \
+           (isinstance(lvalue, str) and isinstance(rvalue, str)):
+            return True
+        elif isinstance(lvalue, int) and isinstance(rvalue, float):
+            return True
+        elif isinstance(lvalue, float) and isinstance(rvalue, int):
+            return True
+        else:
+            self.error(token, str(type(lvalue)) + " and " + str(type(rvalue)) + " are incompatible with the operator " + operator)
+
+
+    # if both the operands are of string type, then some of the operations such as subtraction, multiplication and division won't work for these
+    def stringbystring(self, token, lvalue, rvalue, operator):
+        if (isinstance(lvalue, str) and isinstance(rvalue, str) and (operator == "/") or (operator == "*") or (operator == "-")):
+            self.error(token, str(type(lvalue)) + " and " + str(type(rvalue)) + " doesn't make sense with the particular operation " + operator)
+
             
     def error(self,token,message):
         self.dragon.error(token,message)

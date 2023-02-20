@@ -38,8 +38,11 @@ class Dragon:
         parse = Parser(tokens, self)
         statements = parse.parse()
         if self.hadError : return
-        interpreter = Interpreter(statements,self)
-        interpreter.interprete()
+        try :
+            interpreter = Interpreter(statements,self)
+            interpreter.interprete()
+        except:
+            exit(-1)
         
             
     def error(self,line : int, message):

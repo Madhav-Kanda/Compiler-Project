@@ -1,1 +1,7 @@
-print(1 > 2);
+var num = 15;
+if(3*(num/3) == num or 5*(num/5)==num){
+    print "YES";
+}
+else{
+    print "NO";
+}

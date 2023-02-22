@@ -10,6 +10,15 @@ class Binary:
     def accept(self):
         return AstPrinter.visit_binary_expr(self)
         
+
+## Defining the node for the call expression which takes in callee experession and the list of expression for argumennts & also stores the token for closing paranthesis
+@dataclass
+class Call:
+    callee : Token
+    arguments : list['Expr']
+
+    # def accept(self):
+    #     return AstPrinter.visit_call_expr(self)        
     
 @dataclass
 class Grouping:

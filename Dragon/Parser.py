@@ -11,7 +11,7 @@ class Parser:
     class ParseError(Exception): # handle errors
         pass
     
-    current =0 
+    current = 0 
     def __init__(self, tokens, dragon):
         self.tokens = tokens
         self.dragon = dragon
@@ -45,6 +45,8 @@ class Parser:
             return self.blockStatement()
         if self.match([TokenType.INT,TokenType.STRING,TokenType.FLOAT,TokenType.VAR]):
             return self.declaration()
+        if self.match([TokenType.RETURN]):
+            return self.returnStatement()
         
         return self.expressionStatement()
     
@@ -58,6 +60,14 @@ class Parser:
             self.consume(TokenType.RIGHT_BRACE, "Expected '}'")
         return ans
             
+
+    def returnStatement(self):
+        keyword = self.previous()
+        value = None
+        if not self.check(TokenType.SEMICOLON):
+            value = self.expression()
+        self.consume(TokenType.SEMICOLON, "Expect ';' after return value.")
+        return Return(keyword, value)
         
 
     # print statement
@@ -99,12 +109,60 @@ class Parser:
     def declaration(self):
         return self.varDeclaration(self.previous().type)
         
+
+    def function(self, name,type):
+        parameters = []
+        if not self.check(TokenType.RIGHT_PAREN):
+            condition = True
+            while condition:
+                if len(parameters) >= 255:
+                    self.error(
+                        token=self.peek(),
+                        message="Can't have more than 255 parameters."
+                    )
+                param_type = None
+                l = [TokenType.INT, TokenType.FLOAT, TokenType.STRING,TokenType.VAR]
+                checking = True
+                for i in l:
+                    if(self.check(i)):
+                        match i:
+                            case TokenType.INT: param_type = VarType.INT
+                            case TokenType.FLOAT: param_type = VarType.FLOAT
+                            case TokenType.STRING: param_type = VarType.STRING
+                            case TokenType.VAR: param_type = VarType.DYNAMIC
+                        self.advance()
+                        checking = False
+                if checking:
+                    self.consume(TokenType.INT,message="Expect variable type")
+                                           
+                param_token = self.consume(
+                    type=TokenType.IDENTIFIER, message="Expect parameter name."
+                )
+                parameters.append((param_token,param_type))
+                condition = self.match([TokenType.COMMA])
+
+        self.consume(
+            type=TokenType.RIGHT_PAREN, message="Expect ')' after parameters."
+        )
+        self.consume(
+            type=TokenType.LEFT_BRACE, message="Expect '{' before body."
+        )
+        match type:
+            case TokenType.INT: type = VarType.INT
+            case TokenType.FLOAT: type = VarType.FLOAT
+            case TokenType.STRING: type = VarType.STRING
+            case TokenType.VAR: type = VarType.DYNAMIC
+        body = self.blockStatement()
+        return Function(name,type, parameters, body)
+
+
     def varDeclaration(self, type):
         name = self.consume(TokenType.IDENTIFIER,"Expect variable name")
         initailizer = None
         if (self.match([TokenType.EQUAL])):
             initailizer = self.expression()
-        
+        elif(self.match([TokenType.LEFT_PAREN])) :
+            return self.function(name,type)
         self.consume(TokenType.SEMICOLON,"expect semicolon")
         vartype = None
         match type:
@@ -165,6 +223,7 @@ class Parser:
     def match(self, types):
         for type in types:
             if self.check(type):
+                # print(type)
                 self.advance()
                 return True
         
@@ -186,6 +245,7 @@ class Parser:
     
     # returns current token
     def peek(self) :
+        # print(self.tokens[self.current])
         return self.tokens[self.current];
   
     # return previouse token
@@ -227,7 +287,30 @@ class Parser:
             operator = self.previous()
             right = self.unary()
             return Unary(operator,right)
-        return self.primary()
+        return self.call()
+
+    def call(self):
+        expr = self.primary()
+        if self.match([TokenType.LEFT_PAREN]):  
+            if(isinstance(expr,Variable)):
+                expr = self.finishCall(expr)
+            else:
+                self.current-=1
+                self.consume(TokenType.IDENTIFIER,"expect function name")
+        return expr
+
+    def finishCall(self,callee):
+        arguments = []
+        if not self.check(TokenType.RIGHT_PAREN):   ## If the next token is not a right parenthesis just to handle the case when no arguments present
+            while True:
+                if len(arguments) >= 255:       ## Keeping track of the maximum limit of the arguments that can be passed based Java's upper limit of the number of arguments
+                    self.error(self.peek(),"Can't have more than 255 arguments")
+                arguments.append(self.expression())
+                if not self.match([TokenType.COMMA]): break     ## If the next token is not a comma then break the loop as no more arguments will be present
+        paren = self.consume(TokenType.RIGHT_PAREN,"Expect ')' after arguments")
+        return Call(callee.name,arguments)
+
+    
     # return leaf node of the tree
     def primary(self):
         if self.match([TokenType.FALSE]) : return Literal(False)

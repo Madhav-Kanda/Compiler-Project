@@ -2,6 +2,16 @@ from  Expr import *
 from Stmt import *
 from StackEnvironment import *
 
+class TypeError(Exception):
+    pass
+
+class Parameter(Exception):
+    pass
+
+class ReturnValue(Exception):
+    def __init__(self,value):
+        self.value = value
+
 class Interpreter:
     
     def __init__(self, statements,dragon):
@@ -37,6 +47,27 @@ class Interpreter:
             case Print(value):
                 final_value = self.evalExpression(value)
                 print(final_value)
+            case Return(keyword,value):
+                value = self.evalExpression(value)
+                keyword.lexeme = self.env.getEnvName()
+                while  keyword.lexeme is None:
+                    self.env.stack.pop()
+                    keyword.lexeme = self.env.getEnvName()
+                funobj = self.env.getValue(keyword)
+                    
+                keyword.lexeme = "return" 
+                if len(self.env.stack)==0:
+                    raise TypeError
+                if self.Typecheck(funobj.type,value):
+                    self.env.exitBlock()
+                    raise ReturnValue(value)
+                else :
+                    self.dragon.error(keyword,"invalid return type")
+                    self.env.exitBlock()
+                    raise TypeError
+            case Function(name,type,params,body):
+                self.env.defineValue(name,VarType.FUN,statement)
+                    
              
         
     def evalExpression(self,expression):
@@ -57,10 +88,45 @@ class Interpreter:
                 final_value = self.evalExpression(value)
                 self.env.changeValue(name,final_value)
                 return final_value
+            case Call(callee,arguments):
+                funobj = self.env.getValue(callee)
+                if len(arguments)!= len(funobj.params):
+                    self.dragon.error(callee,"extra arguments are given")
+                    raise Parameter
+                curr_env = Environment(callee.lexeme)
+                for i in range(len(funobj.params)):
+                    value = self.evalExpression(arguments[i])
+                    if self.Typecheck(funobj.params[i][1],value):
+                        curr_env.values[funobj.params[i][0].lexeme] = (funobj.params[i][1],value)
+                    else :
+                        self.dragon.error(callee,"different datatype given")
+                        raise TypeError
+                self.env.enterBlock(callee)
+                self.env.stack.append(curr_env)
+                for i in funobj.body.body:
+                    try :
+                        self.evalStatement(i)
+                    except ReturnValue as ret :
+                        return ret.value
+                    except :
+                        exit(-1)
+                self.env.exitBlock()
+                
+                
+    def Typecheck(self,vartype, value):
+        match vartype:
+            case VarType.INT:
+                if not isinstance(value,int): return False   
+            case VarType.FLOAT:
+                if not isinstance(value,float): return False
+            case VarType.STRING:
+                if not isinstance(value,str): return False
+        return True
+        
                 
     def evalBinary(self,expression):
 
-        self.env.checkTypeCompatibility(expression.operator, self.evalExpression(expression.left), self.evalExpression(expression.right), expression.operator.lexeme)
+        # self.env.checkTypeCompatibility(expression.operator, self.evalExpression(expression.left), self.evalExpression(expression.right), expression.operator.lexeme)
 
         match expression.operator.lexeme:
             case "<":
@@ -80,17 +146,14 @@ class Interpreter:
                 return self.evalExpression(expression.left)+self.evalExpression(expression.right)
 
             case "-":
-                self.env.stringbystring(expression.operator, self.evalExpression(expression.left), self.evalExpression(expression.right), expression.operator.lexeme)
+                # self.env.stringbystring(expression.operator, self.evalExpression(expression.left), self.evalExpression(expression.right), expression.operator.lexeme)
                 return self.evalExpression(expression.left)-self.evalExpression(expression.right)
             case "*":
-                self.env.stringbystring(expression.operator, self.evalExpression(expression.left), self.evalExpression(expression.right), expression.operator.lexeme)
+                # self.env.stringbystring(expression.operator, self.evalExpression(expression.left), self.evalExpression(expression.right), expression.operator.lexeme)
                 return self.evalExpression(expression.left)*self.evalExpression(expression.right)
             case "/":
-                self.env.stringbystring(expression.operator, self.evalExpression(expression.left), self.evalExpression(expression.right), expression.operator.lexeme)
-                l = self.evalExpression(expression.left)
-                r = self.evalExpression(expression.right)
-                if(isinstance(l,int) and isinstance(r,int)): return int(l/r)
-                return l/r
+                # self.env.stringbystring(expression.operator, self.evalExpression(expression.left), self.evalExpression(expression.right), expression.operator.lexeme)
+                return self.evalExpression(expression.left)/self.evalExpression(expression.right)
             case "or":
                 return int(self.evalExpression(expression.left) or self.evalExpression(expression.right))
             case "and":

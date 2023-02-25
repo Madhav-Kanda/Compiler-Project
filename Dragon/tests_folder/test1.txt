@@ -1,7 +1,11 @@
-var num = 15;
-if(3*(num/3) == num or 5*(num/5)==num){
-    print "YES";
+int fact(int a){
+    if(a!=1){
+        print(a);
+        return a*fact(a-1);
+    }
+    else{
+        print(1);
+        return 1;
+    }
 }
-else{
-    print "NO";
-}
+print fact(5);

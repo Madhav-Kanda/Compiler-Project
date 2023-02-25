@@ -2,8 +2,9 @@ from TokenType import *
 from Expr import *
 
 class Environment:
-    def __init__(self):
+    def __init__(self,name = None):
         self.values = {}
+        self.name = name
 
     # a variable definition binds a new name to a value.
     def define(self, name: str, type_value):

@@ -9,12 +9,40 @@ class StackEnvironment:
     def __init__(self,dragon):
         self.stack = [Environment()]
         self.dragon = dragon
+        self.buffer = []
         
-    def enterBlock(self):
-        self.stack.append(Environment())
+    def enterBlock(self, function = None):
+        if(function is None):
+            self.stack.append(Environment())
+        else :
+            length = len(self.stack) -1
+            while length!=-1:
+                value = self.stack[length].get(function.lexeme)
+                if value:
+                    break
+                else:
+                    length -= 1
+            if length==-1:
+                self.error(function,"undefined function name")
+            l = []
+            j = len(self.stack) -1
+            while j != length:
+                l.append(self.stack.pop())
+                j-=1
+            if len(l)>0 : self.buffer.append(l)
+            
         
     def exitBlock(self):
-        self.stack.pop()
+        if self.stack[-1].name is None:
+            self.stack.pop()
+        else:
+            self.stack.pop()
+            if(len(self.buffer)!=0):
+                self.stack = self.stack+ self.buffer[-1]
+                self.buffer.pop()
+                
+    def getEnvName(self):
+        return self.stack[-1].name
         
     def changeValue(self,token, cvalue):
         length = len(self.stack) - 1
@@ -68,6 +96,8 @@ class StackEnvironment:
             case VarType.DYNAMIC: 
                     env.define(token.lexeme,(VarType.DYNAMIC,value))
                     return
+            case VarType.FUN:
+                env.define(token.lexeme,(VarType.FUN,value))
     
     def getValue(self, token):
         length = len(self.stack) - 1
@@ -98,9 +128,8 @@ class StackEnvironment:
 
     # if both the operands are of string type, then some of the operations such as subtraction, multiplication and division won't work for these
     def stringbystring(self, token, lvalue, rvalue, operator):
-        if (isinstance(lvalue, str) and isinstance(rvalue, str)):
-            if (operator == "/") or (operator == "*") or (operator == "-"):
-                self.error(token, str(type(lvalue)) + " and " + str(type(rvalue)) + " doesn't make sense with the particular operation " + operator)
+        if (isinstance(lvalue, str) and isinstance(rvalue, str) and (operator == "/") or (operator == "*") or (operator == "-")):
+            self.error(token, str(type(lvalue)) + " and " + str(type(rvalue)) + " doesn't make sense with the particular operation " + operator)
 
             
     def error(self,token,message):

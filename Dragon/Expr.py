@@ -55,8 +55,14 @@ class Assign:
 
     def accept(self):
         return AstPrinter.visit_assign_expr(self)
+    
+@dataclass
+class Let:
+    name: Token
+    e1: 'Expr'
+    e2: 'Expr'
  
    
-Expr = Binary | Grouping | Literal | Unary
+Expr = Binary | Grouping | Literal | Unary| Let
 
 from ASTPrinter import AstPrinter

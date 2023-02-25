@@ -126,7 +126,7 @@ class Interpreter:
                 
     def evalBinary(self,expression):
 
-        # self.env.checkTypeCompatibility(expression.operator, self.evalExpression(expression.left), self.evalExpression(expression.right), expression.operator.lexeme)
+        self.env.checkTypeCompatibility(expression.operator, self.evalExpression(expression.left), self.evalExpression(expression.right), expression.operator.lexeme)
 
         match expression.operator.lexeme:
             case "<":
@@ -146,13 +146,13 @@ class Interpreter:
                 return self.evalExpression(expression.left)+self.evalExpression(expression.right)
 
             case "-":
-                # self.env.stringbystring(expression.operator, self.evalExpression(expression.left), self.evalExpression(expression.right), expression.operator.lexeme)
+                self.env.stringbystring(expression.operator, self.evalExpression(expression.left), self.evalExpression(expression.right), expression.operator.lexeme)
                 return self.evalExpression(expression.left)-self.evalExpression(expression.right)
             case "*":
-                # self.env.stringbystring(expression.operator, self.evalExpression(expression.left), self.evalExpression(expression.right), expression.operator.lexeme)
+                self.env.stringbystring(expression.operator, self.evalExpression(expression.left), self.evalExpression(expression.right), expression.operator.lexeme)
                 return self.evalExpression(expression.left)*self.evalExpression(expression.right)
             case "/":
-                # self.env.stringbystring(expression.operator, self.evalExpression(expression.left), self.evalExpression(expression.right), expression.operator.lexeme)
+                self.env.stringbystring(expression.operator, self.evalExpression(expression.left), self.evalExpression(expression.right), expression.operator.lexeme)
                 return self.evalExpression(expression.left)/self.evalExpression(expression.right)
             case "or":
                 return int(self.evalExpression(expression.left) or self.evalExpression(expression.right))

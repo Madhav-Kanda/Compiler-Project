@@ -128,8 +128,10 @@ class StackEnvironment:
 
     # if both the operands are of string type, then some of the operations such as subtraction, multiplication and division won't work for these
     def stringbystring(self, token, lvalue, rvalue, operator):
-        if (isinstance(lvalue, str) and isinstance(rvalue, str) and (operator == "/") or (operator == "*") or (operator == "-")):
-            self.error(token, str(type(lvalue)) + " and " + str(type(rvalue)) + " doesn't make sense with the particular operation " + operator)
+        if (isinstance(lvalue, str) and isinstance(rvalue, str)):
+            if (operator == "/") or (operator == "*") or (operator == "-"):
+                self.error(token, str(type(lvalue)) + " and " + str(type(rvalue)) + " doesn't make sense with the particular operation " + operator)
+
 
             
     def error(self,token,message):

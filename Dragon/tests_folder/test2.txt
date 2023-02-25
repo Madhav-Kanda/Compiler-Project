@@ -1,4 +1,4 @@
-fun add(a,b){
+int add(int a,int b){
     print(a+b);
 }
 

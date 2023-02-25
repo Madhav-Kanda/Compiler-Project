@@ -1,10 +1,10 @@
 int fact(int a){
+    print("f");
     if(a!=1){
-        print(a);
         return a*fact(a-1);
     }
     else{
-        print(1);
+        
         return 1;
     }
 }

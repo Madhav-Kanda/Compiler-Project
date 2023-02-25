@@ -125,36 +125,38 @@ class Interpreter:
         
                 
     def evalBinary(self,expression):
-
-        self.env.checkTypeCompatibility(expression.operator, self.evalExpression(expression.left), self.evalExpression(expression.right), expression.operator.lexeme)
+        l = self.evalExpression(expression.left)
+        r = self.evalExpression(expression.right)
+        self.env.checkTypeCompatibility(expression.operator, l, r, expression.operator.lexeme)
 
         match expression.operator.lexeme:
             case "<":
-                return int(self.evalExpression(expression.left)<self.evalExpression(expression.right))
+                return int(l<r)
             case ">":
-                return int(self.evalExpression(expression.left)>self.evalExpression(expression.right))
+                return int(l>r)
             case "<=":
-                return int(self.evalExpression(expression.left)<=self.evalExpression(expression.right))
+                return int(l<=r)
             case ">=":
-                return int(self.evalExpression(expression.left)>=self.evalExpression(expression.right))
+                return int(l>=r)
             case "==":
-                return int(self.evalExpression(expression.left)==self.evalExpression(expression.right))
+                return int(l==r)
             case "!=":
-                return not int(self.evalExpression(expression.left)==self.evalExpression(expression.right))
+                return not int(l==r)
 
             case "+":
-                return self.evalExpression(expression.left)+self.evalExpression(expression.right)
+                return l+r
 
             case "-":
-                self.env.stringbystring(expression.operator, self.evalExpression(expression.left), self.evalExpression(expression.right), expression.operator.lexeme)
-                return self.evalExpression(expression.left)-self.evalExpression(expression.right)
+                self.env.stringbystring(expression.operator, l, r, expression.operator.lexeme)
+                return l-r
             case "*":
-                self.env.stringbystring(expression.operator, self.evalExpression(expression.left), self.evalExpression(expression.right), expression.operator.lexeme)
-                return self.evalExpression(expression.left)*self.evalExpression(expression.right)
+                self.env.stringbystring(expression.operator, l, r, expression.operator.lexeme)
+                return l*r
             case "/":
-                self.env.stringbystring(expression.operator, self.evalExpression(expression.left), self.evalExpression(expression.right), expression.operator.lexeme)
-                return self.evalExpression(expression.left)/self.evalExpression(expression.right)
+                self.env.stringbystring(expression.operator, l, r, expression.operator.lexeme)
+                if(isinstance(l,int) and isinstance(r,int)): return int(l/r)
+                return l/r
             case "or":
-                return int(self.evalExpression(expression.left) or self.evalExpression(expression.right))
+                return int(l or r)
             case "and":
-                return int(self.evalExpression(expression.left) and self.evalExpression(expression.right))
+                return int(l and r)

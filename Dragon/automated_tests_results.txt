@@ -1,2 +1,2 @@
-test1: rejected
 test5: rejected
+test1: accepted

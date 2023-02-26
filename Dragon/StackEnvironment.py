@@ -55,6 +55,12 @@ class StackEnvironment:
                             self.stack[length].assign(token.lexeme,(VarType.INT,cvalue))
                             return
                         self.error(token,"can't assign to Variable type int")
+
+                    case VarType.BOOL: 
+                        if isinstance(cvalue,bool):
+                            self.stack[length].assign(token.lexeme,(VarType.BOOL,cvalue))
+                            return
+                        self.error(token,"can't assign to Variable type bool")
                         
                     case VarType.FLOAT: 
                         if isinstance(cvalue,float):
@@ -82,6 +88,12 @@ class StackEnvironment:
                     env.define(token.lexeme,(VarType.INT,value))
                     return
                 self.error(token,"can't assign to Variable type int")
+
+            case VarType.BOOL: 
+                if isinstance(value,bool):
+                    env.define(token.lexeme,(VarType.BOOL,value))
+                    return
+                self.error(token,"can't assign to Variable type bool")
                 
             case VarType.FLOAT: 
                 if isinstance(value,float):

@@ -126,6 +126,8 @@ class Interpreter:
         match vartype:
             case VarType.INT:
                 if not isinstance(value,int): return False   
+            case VarType.BOOL:
+                if not isinstance(value,bool): return False 
             case VarType.FLOAT:
                 if not isinstance(value,float): return False
             case VarType.STRING:
@@ -140,17 +142,17 @@ class Interpreter:
 
         match expression.operator.lexeme:
             case "<":
-                return int(l<r)
+                return bool(l<r)
             case ">":
-                return int(l>r)
+                return bool(l>r)
             case "<=":
-                return int(l<=r)
+                return bool(l<=r)
             case ">=":
-                return int(l>=r)
+                return bool(l>=r)
             case "==":
-                return int(l==r)
+                return bool(l==r)
             case "!=":
-                return not int(l==r)
+                return not bool(l==r)
 
             case "+":
                 return l+r

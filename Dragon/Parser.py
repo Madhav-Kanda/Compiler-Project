@@ -47,9 +47,10 @@ class Parser:
             return self.declaration()
         if self.match([TokenType.RETURN]):
             return self.returnStatement()
+    
         
         return self.expressionStatement()
-    
+
     def blockStatement(self):
         ans = Block(body = [])
         check =  self.match([TokenType.RIGHT_BRACE])
@@ -159,11 +160,16 @@ class Parser:
     def varDeclaration(self, type):
         name = self.consume(TokenType.IDENTIFIER,"Expect variable name")
         initailizer = None
+
         if (self.match([TokenType.EQUAL])):
             initailizer = self.expression()
+
         elif(self.match([TokenType.LEFT_PAREN])) :
             return self.function(name,type)
+        
         self.consume(TokenType.SEMICOLON,"expect semicolon")
+
+        
         vartype = None
         match type:
             case TokenType.INT : vartype = VarType.INT
@@ -252,6 +258,13 @@ class Parser:
     def previous(self):
         return self.tokens[self.current - 1];
 
+    def getbehind(self):
+        self.current = self.current - 1;
+        return self.tokens[self.current];
+    
+
+        
+
     # grammar non terminal comparison return expression with comparision operator as root if exists
     def comparison(self):
         expr = self.term()
@@ -287,7 +300,25 @@ class Parser:
             operator = self.previous()
             right = self.unary()
             return Unary(operator,right)
+        if self.match([TokenType.LET]):
+            return self.letStatement()
         return self.call()
+    
+    # parsing the let statement
+    # first there should be a let keyword, then we expect a variable name
+    # then we expect a "=" sign, then we expect expression 1 followed by
+    # "in" followed by expression 2, ending with a semicolon
+    def letStatement(self):
+        name = self.consume(TokenType.IDENTIFIER,"Expect variable name")
+        self.consume(TokenType.EQUAL, "Expect '=' after the variable name")
+        e1 = self.expression()
+        self.consume(TokenType.IN, "Expect 'in' after expression 1")
+        if (self.match([TokenType.LET])):
+                e2 = self.letStatement()
+        else:
+            e2 = self.expression()
+
+        return Let(name, e1, e2)
 
     def call(self):
         expr = self.primary()
@@ -297,6 +328,7 @@ class Parser:
             else:
                 self.current-=1
                 self.consume(TokenType.IDENTIFIER,"expect function name")
+
         return expr
 
     def finishCall(self,callee):

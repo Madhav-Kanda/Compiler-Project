@@ -67,8 +67,8 @@ class Interpreter:
                     raise TypeError
             case Function(name,type,params,body):
                 self.env.defineValue(name,VarType.FUN,statement)
-                    
-             
+
+
         
     def evalExpression(self,expression):
         
@@ -111,6 +111,15 @@ class Interpreter:
                     except :
                         exit(-1)
                 self.env.exitBlock()
+            case Let(name, e1, e2):
+                self.env.enterBlock()
+                value = self.evalExpression(e1)
+                self.env.defineValue(name, VarType.DYNAMIC, value)
+                c = self.evalExpression(e2)
+                self.env.exitBlock()
+                return c
+
+
                 
                 
     def Typecheck(self,vartype, value):

@@ -53,3 +53,4 @@ class TokenType(Enum):
     MUTE = 42
     FUN = 45
     PRINT = 44
+    DYNAMIC = 46

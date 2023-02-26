@@ -8,4 +8,5 @@ int fact(int a){
         return 1;
     }
 }
-print fact(5);
+a = fact(5);
+print(a);

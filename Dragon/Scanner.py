@@ -99,7 +99,7 @@ class Scanner :
                 pass
             case '\t':
                 pass
-            case '\n':
+            case '\n': 
                 self.line+=1
             case '"':
                 self.string()

@@ -29,7 +29,9 @@ class Grouping:
     
 @dataclass
 class Literal:
+    # value : object 
     value : bool | int | float | str
+
     def accept(self):
         return AstPrinter.visit_literal_expr(self)
     

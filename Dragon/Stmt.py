@@ -10,6 +10,7 @@ class VarType(Enum):
     STRING = 2
     DYNAMIC = 3
     FUN = 4
+    BOOL = 5 # for boolean data type 
 
 @dataclass
 class Expression:

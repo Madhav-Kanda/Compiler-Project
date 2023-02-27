@@ -43,7 +43,7 @@ class Parser:
             return self.whileStatement()
         if self.match([TokenType.LEFT_BRACE]):
             return self.blockStatement()
-        if self.match([TokenType.INT,TokenType.STRING,TokenType.FLOAT,TokenType.VAR]):
+        if self.match([TokenType.INT,TokenType.STRING,TokenType.FLOAT,TokenType.VAR, TokenType.BOOL]):
             return self.declaration()
         if self.match([TokenType.RETURN]):
             return self.returnStatement()
@@ -122,12 +122,13 @@ class Parser:
                         message="Can't have more than 255 parameters."
                     )
                 param_type = None
-                l = [TokenType.INT, TokenType.FLOAT, TokenType.STRING,TokenType.VAR]
+                l = [TokenType.INT, TokenType.FLOAT, TokenType.STRING,TokenType.VAR, TokenType.BOOL]
                 checking = True
                 for i in l:
                     if(self.check(i)):
                         match i:
                             case TokenType.INT: param_type = VarType.INT
+                            case TokenType.BOOL: param_type = VarType.BOOL
                             case TokenType.FLOAT: param_type = VarType.FLOAT
                             case TokenType.STRING: param_type = VarType.STRING
                             case TokenType.VAR: param_type = VarType.DYNAMIC
@@ -150,6 +151,7 @@ class Parser:
         )
         match type:
             case TokenType.INT: type = VarType.INT
+            case TokenType.BOOL: type = VarType.BOOL
             case TokenType.FLOAT: type = VarType.FLOAT
             case TokenType.STRING: type = VarType.STRING
             case TokenType.VAR: type = VarType.DYNAMIC
@@ -173,6 +175,7 @@ class Parser:
         vartype = None
         match type:
             case TokenType.INT : vartype = VarType.INT
+            case TokenType.BOOL : vartype = VarType.BOOL
             case TokenType.STRING : vartype = VarType.STRING
             case TokenType.FLOAT : vartype = VarType.FLOAT
             case TokenType.VAR : vartype = VarType.DYNAMIC

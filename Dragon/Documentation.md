@@ -61,6 +61,10 @@ number or string.
            ++ (increment by one)
            -- (decrement by one)
            ! (complement, reverts the value of a boolean variable)
+    5. Let:
+       Takes two expressions where the first one is an assignment
+       but the second one can be a recursive let expression or the
+       evaluated expression. 
   
   ## Statements:
      1. Expression
@@ -90,7 +94,7 @@ number or string.
      7. Factor:
         Parses multiplication and division expressions.
      8. Unary:
-        Parses unary operators like ! and -.
+        Parses unary operators like ! and -. If not, we also parse for Let expression.yy
      9. Error: 
         Returns all the errors if any in the program.
  

@@ -2,10 +2,11 @@ from Token import Token
 from TokenType import TokenType
 
 class Scanner :  
+    
     keywords = {"and": TokenType.AND,
                 "class" : TokenType.CLASS,
                 "else" : TokenType.ELSE,
-                "False": TokenType.FALSE,
+                "false": TokenType.FALSE,
                 "for" : TokenType.FOR,
                 "if": TokenType.IF,
                 "nil" : TokenType.NIL,
@@ -13,7 +14,7 @@ class Scanner :
                 "return": TokenType.RETURN,
                 "super" : TokenType.SUPER,
                 "this" : TokenType.THIS,
-                "True": TokenType.TRUE,
+                "true": TokenType.TRUE,
                 "var" : TokenType.VAR,
                 "while" : TokenType.WHILE,
                 "let" : TokenType.LET,

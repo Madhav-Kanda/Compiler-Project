@@ -168,10 +168,6 @@ class Interpreter:
                 if(isinstance(l,int) and isinstance(r,int)): return int(l/r)
                 return l/r
             case "or":
-                if (isinstance(l, bool) and isinstance(r,bool)):
-                    return bool(l or r)
                 return int(l or r)
             case "and":
-                if (isinstance(l, bool) and isinstance(r,bool)):
-                    return bool(l and r)
-                return int(l and r) 
+                return int(l and r)

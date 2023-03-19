@@ -80,8 +80,9 @@ class Interpreter:
             case Literal(value):
                 return value
             case Unary(operator,right):
-                if operator=="!": return not self.evalExpression(right)
-                if operator=="-": return -1*self.evalExpression(right)
+                if operator.lexeme=="!": return not self.evalExpression(right)
+                if operator.lexeme=="-": 
+                    return -1*self.evalExpression(right)
             case Variable(name):
                 return self.env.getValue(name)
             case Assign(name,value):
@@ -168,6 +169,6 @@ class Interpreter:
                 if(isinstance(l,int) and isinstance(r,int)): return int(l/r)
                 return l/r
             case "or":
-                return int(l or r)
+                return bool(l or r)
             case "and":
-                return int(l and r)
+                return bool(l and r)

@@ -18,7 +18,7 @@ for test in test_cases:
 
     # Run the dragon.py script with the current test case
     try:
-        output = subprocess.check_output(["python3", dragon_script, tests_folder + "/" + test], universal_newlines=True)
+        output = subprocess.check_output(["python", dragon_script, tests_folder + "/" + test], universal_newlines=True)
 
         # Read the contents of the expected output file
         with open(output_file, "r") as f:

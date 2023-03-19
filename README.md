@@ -11,11 +11,11 @@ In addition to its technical capabilities, our compiler will also have a user-fr
 
 ## **Language specifications**
 
-We will provide these informations on every layer of our compiler. We will provide example codes for users to explain language's features.
+[Language features and examples](docs/LS.md)
 
 ## **Architecture**
 
-For the whole project we only used python 3.10. 
+For this project, we are using python 3.10. We will write all the features of our language and construct a parse tree. We will generate bytecode from parse-tree and also build VM for running bytecode. So, our compiler is a python application that can be run on any machine already installed python.
 
 ## **Documentations of different layers of the compiler**
 

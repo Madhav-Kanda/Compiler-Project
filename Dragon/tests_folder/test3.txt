@@ -1,0 +1,16 @@
+bool a=true;
+
+if(a){
+    print "working";//working
+}
+else{
+    print "not working";
+}
+
+a = false;
+if(a){
+    print "not working";
+}
+else{
+    print "working";//working
+}

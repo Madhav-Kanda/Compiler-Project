@@ -1,12 +1,10 @@
 int fact(int a){
-    print("f");
     if(a!=1){
         return a*fact(a-1);
     }
     else{
-        
         return 1;
     }
 }
-a = fact(5);
-print(a);
+int a = fact(5);
+print(a); //120

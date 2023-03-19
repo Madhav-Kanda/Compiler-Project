@@ -3,6 +3,7 @@ from TokenType import TokenType
 
 class Scanner :  
     
+    
     keywords = {"and": TokenType.AND,
                 "class" : TokenType.CLASS,
                 "else" : TokenType.ELSE,
@@ -27,12 +28,13 @@ class Scanner :
                 "print": TokenType.PRINT,
                 "string" : TokenType.STRING
                 }  
-    def __init__(self, source,tokens=[], start=0, current=0, line=1):
+    def __init__(self, source,dragon,tokens=[], start=0, current=0, line=1):
         self.source = source
         self.tokens = tokens
         self.start = start
         self.current = current
         self.line = line
+        self.dragon = dragon
     
     def scanTokens(self):
         while not self.isAtEnd():
@@ -109,7 +111,7 @@ class Scanner :
                 elif self.isAlpha(c):
                     self.identifier()
                 else:   
-                    Dragon.error(self.line, "Unexpected character.")
+                    self.dragon.error(self.line, "Unexpected character.")
     
     def identifier(self):
         while self.isAlphaNumeric(self.peek()): self.advance()
@@ -138,7 +140,7 @@ class Scanner :
             self.advance()
         
         if self.isAtEnd():
-            Dragon.error(self.line, "Unterminated string.")
+            self.dragon.error(self.line, "Unterminated string.")
             return
         
         self.advance()

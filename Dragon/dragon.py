@@ -33,7 +33,10 @@ class Dragon:
             self.hadError = False
             
     def run(self,source):
-        scanner = Scanner(source)
+        try:
+            scanner = Scanner(source,self)
+        except:
+            exit(-1)
         tokens = scanner.scanTokens()
         parse = Parser(tokens, self)
         statements = parse.parse()

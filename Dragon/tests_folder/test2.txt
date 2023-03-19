@@ -1,5 +1,10 @@
-int add(int a,int b){
-    print(a+b);
-}
-
-print(add(1,2));
+int a =5.5;
+int b = 5;
+float c = 5;
+string d = "a"+"b";
+var e = "hello";
+print a;//5
+print b;//5
+print c;//5.0
+print d;//ab
+print e;//hello

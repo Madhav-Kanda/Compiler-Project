@@ -1,2 +1,1 @@
-bool a = 1<5;
-print(a);
+print let a = 5 in a*let a = 6 in 2*a;

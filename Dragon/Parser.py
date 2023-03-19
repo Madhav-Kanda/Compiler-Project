@@ -41,6 +41,8 @@ class Parser:
             return self.ifStatement()
         if self.match([TokenType.WHILE]):
             return self.whileStatement()
+        if self.match([TokenType.FOR]):
+            return self.forStatement()
         if self.match([TokenType.LEFT_BRACE]):
             return self.blockStatement()
         if self.match([TokenType.INT,TokenType.STRING,TokenType.FLOAT,TokenType.VAR, TokenType.BOOL]):
@@ -99,6 +101,43 @@ class Parser:
         body = self.statement()
 
         return While(condition,body)
+
+    # for statement
+    def forStatement(self):
+        self.consume(TokenType.LEFT_PAREN,"Expect '(' after 'for'")
+        
+        initializer = None
+        if self.match([TokenType.SEMICOLON]):
+            initializer = None
+        elif self.match([TokenType.INT,TokenType.STRING,TokenType.FLOAT,TokenType.VAR, TokenType.BOOL]):
+            initializer = self.varDeclaration(self.previous().type)
+        else:
+            initializer = self.expressionStatement()
+        
+        condition = None
+        if not self.check(TokenType.SEMICOLON):
+            condition = self.expression()
+        self.consume(TokenType.SEMICOLON,"Expect ';' after loop condition")
+        
+        increment = None
+        if not self.check(TokenType.RIGHT_PAREN):
+            increment = self.expression()
+        self.consume(TokenType.RIGHT_PAREN,"Expect ')' after for clauses")
+
+        body = self.statement()
+
+        if increment is not None:
+            body = Block([body,Expression(increment)])
+
+        if condition is None:
+            condition = Literal(True)
+
+        body = While(condition,body)
+
+        if initializer is not None:
+            body = Block([initializer,body])
+
+        return body
     
     # expression statement
     def expressionStatement(self):
@@ -344,7 +383,7 @@ class Parser:
                 if not self.match([TokenType.COMMA]): break     ## If the next token is not a comma then break the loop as no more arguments will be present
         paren = self.consume(TokenType.RIGHT_PAREN,"Expect ')' after arguments")
         return Call(callee.name,arguments)
-
+ 
     
     # return leaf node of the tree
     def primary(self):

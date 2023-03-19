@@ -51,8 +51,8 @@ class StackEnvironment:
             if value:
                 match value[0]:
                     case VarType.INT: 
-                        if isinstance(cvalue,int) or isinstance(cvalue,float) :
-                            self.stack[length].assign(token.lexeme,(VarType.INT,int(cvalue)))
+                        if isinstance(cvalue,int):
+                            self.stack[length].assign(token.lexeme,(VarType.INT,cvalue))
                             return
                         self.error(token,"can't assign to Variable type int")
 
@@ -63,8 +63,8 @@ class StackEnvironment:
                         self.error(token,"can't assign to Variable type bool")
                         
                     case VarType.FLOAT: 
-                        if isinstance(cvalue,float) or isinstance(cvalue,int):
-                            self.stack[length].assign(token.lexeme,(VarType.FLOAT,float(cvalue)))
+                        if isinstance(cvalue,float):
+                            self.stack[length].assign(token.lexeme,(VarType.FLOAT,cvalue))
                             return
                         self.error(token,"can't assign to Variable type is float")
                     case VarType.STRING: 
@@ -84,8 +84,8 @@ class StackEnvironment:
             self.error(token, "Variable already exists")
         match type:
             case VarType.INT: 
-                if isinstance(value,int) or isinstance(value,float):
-                    env.define(token.lexeme,(VarType.INT,int(value)))
+                if isinstance(value,int):
+                    env.define(token.lexeme,(VarType.INT,value))
                     return
                 self.error(token,"can't assign to Variable type int")
 
@@ -96,8 +96,8 @@ class StackEnvironment:
                 self.error(token,"can't assign to Variable type bool")
                 
             case VarType.FLOAT: 
-                if isinstance(value,float) or isinstance(value,int) :
-                    env.define(token.lexeme,(VarType.FLOAT,float(value)))
+                if isinstance(value,float):
+                    env.define(token.lexeme,(VarType.FLOAT,value))
                     return
                 self.error(token,"can't assign to Variable type is float")
             case VarType.STRING: 

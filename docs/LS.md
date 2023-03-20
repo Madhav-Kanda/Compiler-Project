@@ -96,8 +96,9 @@ you can write print statement as
 print {expression}
 ```
 **<h2 id="4">operators</h2>**
-Language supports addition, subtraction, multiplication, division, comparison operators, unary neagation, and, or operators.
-[order and associativity of operators you can find here](PARSER.md)
+Language supports addition, subtraction, multiplication, division, comparison operators, unary negation, and, or operators.
+[You can find the order and associativity of the code here.](PARSER.md)
+
 code:
 ```
 int a = 5*3-2+10/6;

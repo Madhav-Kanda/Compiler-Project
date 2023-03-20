@@ -1,0 +1,15 @@
+// Even Fibonacci numbers Problem 2:
+// https://projecteuler.net/problem=2
+
+int a = 1;
+int b = 2;
+int count = 0;
+while(b<4000000){
+    int temp = b;
+    b = b + a;
+    a = temp;
+    if(2*(b/2)==b){
+        count = count + b;
+    }
+}
+print(count);

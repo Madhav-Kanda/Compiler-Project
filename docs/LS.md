@@ -34,6 +34,8 @@ More specific syntax we will see in below topics.
 
 [7 let expressions](#7)
 
+[8 Project Euler](#8)
+
 
 
 
@@ -220,3 +222,8 @@ output:
 ```
 60
 ```
+
+**<h2 id="8">Project Euler</h2>**
+
+To validate the implementation of our compiler, we wrote the code of 5 problems from Project Euler in our compiler. All of the codes ran without any error being thrown and provided an output as expected. The questions, code and output can be accessed [here.](Euler.md)
+

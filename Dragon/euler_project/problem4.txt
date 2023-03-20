@@ -1,0 +1,19 @@
+// Sum square difference
+// https://projecteuler.net/problem=6
+
+int sum1 = 0;
+int sum2 = 0;
+
+int i = 1;
+
+int b = 100*101;
+b = b/2;
+sum2 = b*b;
+
+while (i <= 100) {
+    int a = i*i;
+    sum1 = sum1 + a;
+    i = i + 1;
+}
+
+print(sum2 - sum1);

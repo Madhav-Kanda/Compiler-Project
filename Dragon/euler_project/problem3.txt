@@ -1,0 +1,18 @@
+// Largest prime factor
+// https://projecteuler.net/problem=3
+
+int largest_pf(int N) {
+   int i = 2; 
+   int largest = 1;
+   while(i<=N) {
+       while (i*(N / i) == N) {
+           largest = i;
+           N = N / i;
+        }
+        i=i+1;
+    }
+    return largest;
+}
+
+int ans = largest_pf(600851475143);
+print(ans);

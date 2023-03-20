@@ -1,0 +1,23 @@
+int gcd(int a, int b){
+    while (b > 0){
+        a = b;
+        b = a - b*(a/b);
+    }
+    
+    return a;
+}
+
+int lcm(int a, int b){
+    return (a * b) / gcd(a, b);
+}
+
+int lcm_all = 1;
+
+int i = 1;
+
+while (i < 21){
+    lcm_all = lcm(lcm_all, i);
+    i = i + 1;
+}
+
+print(lcm_all);

@@ -12,7 +12,7 @@ But let say if you try to operate a `+` between an *integer* and a *string*, the
 
 ### Test - 1 
 ```
-print(1 > 2)
+print(1 < 2)
 ```
 **Output** 
 ```

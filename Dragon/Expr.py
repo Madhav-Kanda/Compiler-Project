@@ -49,6 +49,49 @@ class Variable:
 
     def accept(self):
         return AstPrinter.visit_variable_expr(self)
+
+@dataclass
+class List: 
+    elements: list['Expr'] 
+    
+
+    # def accept(self):
+    #     return AstPrinter.visit_list_expr(self) 
+
+# data class for ListAccess 
+@dataclass
+class ListAccess:
+    list : 'Expr'
+    index : 'Expr'
+
+    # def accept(self):
+    #     return AstPrinter.visit_list_access_expr(self) 
+
+# data class for ListSlice
+@dataclass
+class ListSlice:
+    list : 'Expr'
+    start : 'Expr'
+    end : 'Expr'
+
+    # def accept(self):
+    #     return AstPrinter.visit_list_slice_expr(self) 
+
+# dataclass for appending to a list
+@dataclass
+class ListAppend:
+    list : 'Expr'
+    element : 'Expr'
+
+    # def accept(self):
+    #     return AstPrinter.visit_list_append_expr(self)
+
+# dataclass for popping last element from a list
+class ListPop: 
+    list : 'Expr'
+
+    # def accept(self):
+    #     return AstPrinter.visit_list_pop_expr(self) 
     
 @dataclass
 class Assign:
@@ -62,7 +105,7 @@ class Assign:
 class Let:
     name: Token
     e1: 'Expr'
-    e2: 'Expr'
+    e2: 'Expr' 
  
    
 Expr = Binary | Grouping | Literal | Unary| Let

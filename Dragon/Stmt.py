@@ -34,8 +34,9 @@ class While:
     body: 'Stmt' 
 
 @dataclass   
-class Block:
+class Block: 
     body : list['Stmt']
+    
 
 @dataclass
 class Print:

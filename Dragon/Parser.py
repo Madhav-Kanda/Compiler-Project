@@ -387,6 +387,11 @@ class Parser:
     
     # return leaf node of the tree
     def primary(self):
+        if self.match([TokenType.LEFT_SQUARE]): return self.list() 
+        if self.match([TokenType.LIST_ACCESS]): return self.list_access() 
+        if self.match([TokenType.LIST_SLICE]): return self.list_slice() 
+        if self.match([TokenType.LIST_APPEND]): return self.list_append()
+        if self.match([TokenType.LIST_POP]): return self.list_pop()
         if self.match([TokenType.FALSE]) : return Literal(False)
         if self.match([TokenType.TRUE]) : return Literal(True)
         if self.match([TokenType.NIL]) : return Literal(None)
@@ -400,6 +405,48 @@ class Parser:
             return Grouping(expr)
         
         raise self.error(self.peek(), "Expect expression") 
+
+    def list(self):
+        elements = []
+        if not self.check(TokenType.RIGHT_SQUARE):
+            while True:
+                elements.append(self.expression()) 
+                if not self.match([TokenType.COMMA]): break
+        self.consume(TokenType.RIGHT_SQUARE,"Expect ']' after list elements") 
+        return List(elements)  
+    
+    def list_access(self):
+        self.consume(TokenType.LEFT_PAREN,"Expect '(' after list index")
+        list = self.expression()
+        self.consume(TokenType.COMMA,"Expect ',' after list")
+        index = self.expression() 
+        self.consume(TokenType.RIGHT_PAREN,"Expect ')' after index")
+        return ListAccess(list,index) 
+
+    def list_slice(self):
+        self.consume(TokenType.LEFT_PAREN,"Expect '(' after list slice")
+        list = self.expression()
+        self.consume(TokenType.COMMA,"Expect ',' after list")
+        start = self.expression()
+        self.consume(TokenType.COMMA,"Expect ',' after start index")
+        end = self.expression()
+        self.consume(TokenType.RIGHT_PAREN,"Expect ')' after end index")
+        return ListSlice(list,start,end) 
+
+    def list_append(self):
+        self.consume(TokenType.LEFT_PAREN,"Expect '(' after list append")
+        list = self.expression()
+        self.consume(TokenType.COMMA,"Expect ',' after list")
+        element = self.expression()
+        self.consume(TokenType.RIGHT_PAREN,"Expect ')' after element")
+        return ListAppend(list,element)
+    
+    def list_pop(self):
+        self.consume(TokenType.LEFT_PAREN,"Expect '(' after list pop")
+        list = self.expression()
+        self.consume(TokenType.RIGHT_PAREN,"Expect ')' after list")
+        return ListPop(list)
+        
         
     def consume(self,type, message):
         if self.check(type) : return self.advance()

@@ -58,6 +58,23 @@ class List:
     # def accept(self):
     #     return AstPrinter.visit_list_expr(self) 
 
+# data class for length of a list
+@dataclass
+class ListLength:
+    list : 'Expr'
+
+    # def accept(self):
+    #     return AstPrinter.visit_list_length_expr(self)
+
+
+# data class for list is empty or not 
+@dataclass
+class ListIsEmpty:
+    list : 'Expr'
+
+    # def accept(self):
+    #     return AstPrinter.visit_list_isempty_expr(self)
+
 # data class for ListAccess 
 @dataclass
 class ListAccess:
@@ -66,6 +83,22 @@ class ListAccess:
 
     # def accept(self):
     #     return AstPrinter.visit_list_access_expr(self) 
+
+# data class for head of a list
+@dataclass
+class ListHead:
+    list : 'Expr'
+
+    # def accept(self):
+    #     return AstPrinter.visit_list_head_expr(self)
+
+# data class for tail of a list
+@dataclass
+class ListTail:
+    list : 'Expr'
+
+    # def accept(self):
+    #     return AstPrinter.visit_list_tail_expr(self)
 
 # data class for ListSlice
 @dataclass
@@ -86,8 +119,9 @@ class ListAppend:
     # def accept(self):
     #     return AstPrinter.visit_list_append_expr(self)
 
-# dataclass for popping last element from a list
-class ListPop: 
+# data class for poping last element from a list 
+@dataclass
+class ListPop:
     list : 'Expr'
 
     # def accept(self):
@@ -108,6 +142,6 @@ class Let:
     e2: 'Expr' 
  
    
-Expr = Binary | Grouping | Literal | Unary| Let 
+Expr = Binary | Grouping | Literal | Unary| Let
 
 from ASTPrinter import AstPrinter

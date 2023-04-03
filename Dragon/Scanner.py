@@ -31,6 +31,10 @@ class Scanner :
                 "slice" : TokenType.LIST_SLICE,
                 "append" : TokenType.LIST_APPEND,
                 "pop" : TokenType.LIST_POP, 
+                "length" : TokenType.LIST_LENGTH,
+                "isEmpty": TokenType.LIST_ISEMPTY,
+                "head" : TokenType.LIST_HEAD,
+                "tail" : TokenType.LIST_TAIL,
                 }  
     def __init__(self, source,dragon,tokens=[], start=0, current=0, line=1):
         self.source = source

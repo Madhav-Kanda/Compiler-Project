@@ -119,7 +119,33 @@ class Interpreter:
                 c = self.evalExpression(e2)
                 self.env.exitBlock()
                 return c
-
+            case List(elems):
+                return [self.evalExpression(i) for i in elems] 
+            case ListAccess(list, index):
+                l = self.evalExpression(list)
+                i = self.evalExpression(index)
+                if i < 0 or i >= len(l):
+                    self.dragon.error(index, "Index out of range")
+                    raise IndexError
+                return l[i]
+            case ListSlice(list, start, end):
+                l = self.evalExpression(list)
+                s = self.evalExpression(start)
+                e = self.evalExpression(end)
+                if s < 0 or s >= len(l):
+                    self.dragon.error(start, "Index out of range")
+                    raise IndexError
+                if e < 0 or e >= len(l):
+                    self.dragon.error(end, "Index out of range")
+                    raise IndexError
+                return l[s:e] 
+            case ListAppend(list, elem):
+                l = self.evalExpression(list)
+                e = self.evalExpression(elem)
+                l.append(e)
+            case ListPop(list):
+                l = self.evalExpression(list)
+                return l.pop() 
 
                 
                 

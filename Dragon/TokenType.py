@@ -14,6 +14,12 @@ class TokenType(Enum):
     SLASH =9 
     STAR = 10
     EOF = 43
+    LEFT_SQUARE = 47
+    RIGHT_SQUARE = 48
+    LIST_ACCESS = 49 # for list indexing 
+    LIST_SLICE = 50 # for list slicing 
+    LIST_APPEND = 51 # for list appending 
+    LIST_POP = 52 # for list popping 
     
     # One or two character tokens.
     BANG = 11 

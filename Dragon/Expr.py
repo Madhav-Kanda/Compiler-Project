@@ -108,6 +108,6 @@ class Let:
     e2: 'Expr' 
  
    
-Expr = Binary | Grouping | Literal | Unary| Let
+Expr = Binary | Grouping | Literal | Unary| Let 
 
 from ASTPrinter import AstPrinter

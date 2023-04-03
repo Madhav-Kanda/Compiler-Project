@@ -3,6 +3,7 @@ from Expr import *
 from Stmt import *
 from Environment import *
 from StackEnvironment import *
+import copy
 
 class Resolve:
 
@@ -20,77 +21,73 @@ class Resolve:
         def resolveExpression(expression):
             match expression:
                 case Binary(left,operator,right):
-                    re1 = resolveExpression(left)
-                    re2 = resolveExpression(right)
+                    re1 = resolveExpression(expression.left)
+                    re2 = resolveExpression(expression.right)
                 case Variable(name):
                     expression.name.lexeme = (expression.name.lexeme,self.env.getValue(name))
-                    print(name.lexeme, self.id)
                 case Let(name, e1, e2):
                     self.env.enterBlock()
                     self.id+=1
-                    re1 = resolveExpression(e1)
-                    print(name.lexeme, self.id)
-                    name.lexeme = (name.lexeme, self.id)
-                    re2 = resolveExpression(e2)
-                    self.id-=1
+                    re1 = resolveExpression(expression.e1)
+                    dummy = copy.copy(expression)
+                    self.env.defineValue(dummy,VarType.INT,self.id)
+                    expression.name.lexeme = (name.lexeme, self.id)
+                    re2 = resolveExpression(expression.e2)
                     self.env.exitBlock()
                 case Grouping(expression):
-                    resolveExpression(expression)
+                    resolveExpression(expression.expression)
                 case Assign(name,value):
-                    resolveExpression(value)
+                    resolveExpression(expression.value)
+                    expression.name.lexeme = (expression.name.lexeme,self.env.getValue(name))
                 case Call(callee,arguments):
-                    resolveExpression(callee)
-                    for argument in arguments:
-                        resolveExpression(argument)
-                        
-        def resolveStatement(statement):
-            match statement:
-                case Block(body):
-                    self.env.enterBlock()
-                    self.id+=1
-                    self.resolve(statement.body)
-                    self.id-=1
-                    self.env.exitBlock()
+                    # print(self.env.stack[0])
+                    expression.callee.lexeme = (expression.callee.lexeme,self.env.getValue(callee))
+                    for i in range(len(arguments)):
+                        resolveExpression(expression.arguments[i])
+
               
         
             
         for statement in statements:
             match statement:
                 case Expression(expression):
-                    resolveExpression(expression)
+                    resolveExpression(statement.expression)
                 case Var(name,type,initializer):
-                    name2 = name
-                    name2.type = VarType.INT
+                    name2 = copy.copy(name)
+                    resolveExpression(statement.initializer)
+                    self.id+=1
                     self.env.defineValue(name2,VarType.INT,self.id)
-                    print(name.lexeme, self.id)
-                    resolveExpression(initializer)
+                    statement.name.lexeme = (name.lexeme,self.id)
                 case Block(body):
                     self.env.enterBlock()
-                    self.id+=1
                     self.resolve(statement.body)
-                    self.id-=1
                     self.env.exitBlock()
                         
                 case Print(value):
-                    resolveExpression(value)
+                    resolveExpression(statement.value)
                 case If(condition,thenBranch,elseBranch):
-                    resolveExpression(condition)
-                    resolveStatement(thenBranch)
+                    resolveExpression(statement.condition)
+                    self.resolve(statement.thenBranch.body)
                     if elseBranch:
-                        resolveStatement(elseBranch)
+                        self.resolve(statement.elseBranch.body)
                 case While(condition,body):
-                    resolveExpression(condition)
-                    resolveStatement(body)
+                    resolveExpression(statement.condition)
+                    self.resolve(statement.body.body)
                 case Function(name,type,params,body):
+                    name2= copy.copy(name)
+                    self.id+=1
+                    statement.name.lexeme = (name.lexeme,self.id)
+                    self.env.defineValue(name2,VarType.INT,self.id)
                     self.env.enterBlock()
-                    for param in params:
-                        resolveExpression(param)
-                    # self.id+=1
-                    resolveStatement(body)
-                    # self.id-=1
+                    for ind in range(len(params)):
+                        self.id+=1
+                        temp = copy.copy(params[ind][0])
+                        self.env.defineValue(temp,VarType.INT,self.id)
+                        statement.params[ind][0].lexeme = (params[ind][0].lexeme, self.id)
+                    self.resolve(statement.body.body)
                     self.env.exitBlock()
                 case Return(keyword,value):
-                    resolveExpression(value)
+                    resolveExpression(statement.value)
             
                 
 

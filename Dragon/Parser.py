@@ -388,7 +388,11 @@ class Parser:
     # return leaf node of the tree
     def primary(self):
         if self.match([TokenType.LEFT_SQUARE]): return self.list() 
+        if self.match([TokenType.LIST_LENGTH]): return self.list_length()
+        if self.match([TokenType.LIST_ISEMPTY]): return self.list_isempty() 
         if self.match([TokenType.LIST_ACCESS]): return self.list_access() 
+        if self.match([TokenType.LIST_HEAD]): return self.list_head()
+        if self.match([TokenType.LIST_TAIL]): return self.list_tail()
         if self.match([TokenType.LIST_SLICE]): return self.list_slice() 
         if self.match([TokenType.LIST_APPEND]): return self.list_append()
         if self.match([TokenType.LIST_POP]): return self.list_pop()
@@ -415,6 +419,18 @@ class Parser:
         self.consume(TokenType.RIGHT_SQUARE,"Expect ']' after list elements") 
         return List(elements)  
     
+    def list_length(self):
+        self.consume(TokenType.LEFT_PAREN,"Expect '(' after list length")
+        list = self.expression()
+        self.consume(TokenType.RIGHT_PAREN,"Expect ')' after list")
+        return ListLength(list)
+    
+    def list_isempty(self):
+        self.consume(TokenType.LEFT_PAREN,"Expect '(' after list isempty")
+        list = self.expression()
+        self.consume(TokenType.RIGHT_PAREN,"Expect ')' after list")
+        return ListIsEmpty(list)
+    
     def list_access(self):
         self.consume(TokenType.LEFT_PAREN,"Expect '(' after list index")
         list = self.expression()
@@ -422,6 +438,18 @@ class Parser:
         index = self.expression() 
         self.consume(TokenType.RIGHT_PAREN,"Expect ')' after index")
         return ListAccess(list,index) 
+    
+    def list_head(self):
+        self.consume(TokenType.LEFT_PAREN,"Expect '(' after list head")
+        list = self.expression()
+        self.consume(TokenType.RIGHT_PAREN,"Expect ')' after list")
+        return ListHead(list)
+
+    def list_tail(self):
+        self.consume(TokenType.LEFT_PAREN,"Expect '(' after list tail")
+        list = self.expression()
+        self.consume(TokenType.RIGHT_PAREN,"Expect ')' after list")
+        return ListTail(list)
 
     def list_slice(self):
         self.consume(TokenType.LEFT_PAREN,"Expect '(' after list slice")
@@ -445,7 +473,7 @@ class Parser:
         self.consume(TokenType.LEFT_PAREN,"Expect '(' after list pop")
         list = self.expression()
         self.consume(TokenType.RIGHT_PAREN,"Expect ')' after list")
-        return ListPop(list)
+        return ListPop(list) 
         
         
     def consume(self,type, message):

@@ -121,13 +121,31 @@ class Interpreter:
                 return c
             case List(elems):
                 return [self.evalExpression(i) for i in elems] 
+            case ListLength(list):
+                l = self.evalExpression(list)
+                return len(l) 
+            case ListIsEmpty(list):
+                l = self.evalExpression(list)
+                return len(l)==0
             case ListAccess(list, index):
                 l = self.evalExpression(list)
                 i = self.evalExpression(index)
-                if i < 0 or i >= len(l):
+                if i >= len(l):
                     self.dragon.error(index, "Index out of range")
-                    raise IndexError
+                    raise IndexError 
                 return l[i]
+            case ListHead(list):
+                l = self.evalExpression(list)
+                if len(l)==0:
+                    self.dragon.error(list, "List is empty")
+                    raise IndexError
+                return l[0]
+            case ListTail(list):
+                l = self.evalExpression(list)
+                if len(l)==0:
+                    self.dragon.error(list, "List is empty")
+                    raise IndexError
+                return l[1:] 
             case ListSlice(list, start, end):
                 l = self.evalExpression(list)
                 s = self.evalExpression(start)
@@ -145,6 +163,9 @@ class Interpreter:
                 l.append(e)
             case ListPop(list):
                 l = self.evalExpression(list)
+                if len(l)==0:
+                    self.dragon.error(list, "List is empty")
+                    raise IndexError
                 return l.pop() 
 
                 

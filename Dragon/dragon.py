@@ -60,6 +60,59 @@ class Dragon:
     def report(self,line, where, message):
         print("[line" + str(line) + "] Error" + str(where) + ": " + message)
         self.hadError = True
+    
+    def rint(self,statement):
+        match statement:
+            case Expression(expression):
+                self.erint(expression)
+            case Var(token,type,initializer):
+                print(token.lexeme)
+                self.erint(initializer)
+            case If(condition, thenBranch, elseBranch):
+                self.erint(condition)
+                self.rint(thenBranch)
+                if elseBranch:
+                    self.rint(elseBranch)
+            case While(condition,body):
+                self.erint(condition)
+                self.rint(body)
+            case Block(body):
+                for i in body:
+                    self.rint(i)
+            case Print(value):
+                self.erint(value)
+            case Function(name,type,params,body):
+                print(name.lexeme)
+                for i in params:
+                    print(i[0].lexeme)
+                self.rint(body)
+            case Return(keyword,value):
+                self.erint(value)
+    
+    def erint(self,expressio):
+        match expressio:
+            case Grouping(expression):
+                self.erint(expression)
+            case Unary(operator,right):
+                self.erint(right)
+            case Variable(name):
+                print(name.lexeme)
+            case Assign(name,value):
+                print(name.lexeme)
+                self.erint(value)
+            case Let(name,e1,e2):
+                print(name.lexeme)
+                self.erint(e1)
+                self.erint(e2)
+            case Call(callee,arguments):
+                print(callee.lexeme)
+                for i in arguments:
+                    self.erint(i)
+            case Binary(left,operator,right):
+                self.erint(left)
+                self.erint(right)
+                
+        
         
         
 def main():

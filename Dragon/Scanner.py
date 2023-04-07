@@ -26,7 +26,15 @@ class Scanner :
                 "mute" : TokenType.MUTE,
                 "fun" : TokenType.FUN,
                 "print": TokenType.PRINT,
-                "string" : TokenType.STRING
+                "string" : TokenType.STRING,
+                "access" : TokenType.LIST_ACCESS, 
+                "slice" : TokenType.LIST_SLICE,
+                "append" : TokenType.LIST_APPEND,
+                "pop" : TokenType.LIST_POP, 
+                "length" : TokenType.LIST_LENGTH,
+                "isEmpty": TokenType.LIST_ISEMPTY,
+                "head" : TokenType.LIST_HEAD,
+                "tail" : TokenType.LIST_TAIL,
                 }  
     def __init__(self, source,dragon,tokens=[], start=0, current=0, line=1):
         self.source = source
@@ -54,17 +62,19 @@ class Scanner :
     def addToken(self, type, literal=None):
         text = self.source[self.start:self.current]
         self.tokens.append(Token(type, text, literal, self.line))
-    
-
-    
+        
 
     def scanToken(self):
         c = self.advance()
         match c:
             case '(': 
-                self.addToken(TokenType.LEFT_PAREN)
+                self.addToken(TokenType.LEFT_PAREN) 
             case ')': 
-                self.addToken(TokenType.RIGHT_PAREN)
+                self.addToken(TokenType.RIGHT_PAREN) 
+            case '[':  # for list
+                self.addToken(TokenType.LEFT_SQUARE)
+            case ']':  # for list 
+                self.addToken(TokenType.RIGHT_SQUARE) 
             case '{': 
                 self.addToken(TokenType.LEFT_BRACE)
             case '}': 

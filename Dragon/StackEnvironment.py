@@ -41,7 +41,7 @@ class StackEnvironment:
                 self.stack = self.stack+ self.buffer[-1]
                 self.buffer.pop()
                 
-    def getEnvName(self):
+    def getEnvName(self): 
         return self.stack[-1].name
         
     def changeValue(self,token, cvalue):

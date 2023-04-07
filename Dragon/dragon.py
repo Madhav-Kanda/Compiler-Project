@@ -5,8 +5,7 @@ from TokenType import *
 from Parser import *
 from ASTPrinter import *
 from Interpreter import *
-from Resolve import *
-from Environment import *
+
 
 class Dragon:
     """
@@ -41,12 +40,6 @@ class Dragon:
         tokens = scanner.scanTokens()
         parse = Parser(tokens, self)
         statements = parse.parse()
-
-        resolved = Resolve(statements, self)
-        resolved.resolvii()
-        
-        for i in resolved.statements:
-            self.rint(i)
         if self.hadError : return
         try :
             interpreter = Interpreter(statements,self)

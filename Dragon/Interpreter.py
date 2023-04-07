@@ -119,7 +119,54 @@ class Interpreter:
                 c = self.evalExpression(e2)
                 self.env.exitBlock()
                 return c
-
+            case List(elems):
+                return [self.evalExpression(i) for i in elems] 
+            case ListLength(list):
+                l = self.evalExpression(list)
+                return len(l) 
+            case ListIsEmpty(list):
+                l = self.evalExpression(list)
+                return len(l)==0
+            case ListAccess(list, index):
+                l = self.evalExpression(list)
+                i = self.evalExpression(index)
+                if i >= len(l):
+                    self.dragon.error(index, "Index out of range")
+                    raise IndexError 
+                return l[i]
+            case ListHead(list):
+                l = self.evalExpression(list)
+                if len(l)==0:
+                    self.dragon.error(list, "List is empty")
+                    raise IndexError
+                return l[0]
+            case ListTail(list):
+                l = self.evalExpression(list)
+                if len(l)==0:
+                    self.dragon.error(list, "List is empty")
+                    raise IndexError
+                return l[1:] 
+            case ListSlice(list, start, end):
+                l = self.evalExpression(list)
+                s = self.evalExpression(start)
+                e = self.evalExpression(end)
+                if s < 0 or s >= len(l):
+                    self.dragon.error(start, "Index out of range")
+                    raise IndexError
+                if e < 0 or e >= len(l):
+                    self.dragon.error(end, "Index out of range")
+                    raise IndexError
+                return l[s:e] 
+            case ListAppend(list, elem):
+                l = self.evalExpression(list)
+                e = self.evalExpression(elem)
+                l.append(e)
+            case ListPop(list):
+                l = self.evalExpression(list)
+                if len(l)==0:
+                    self.dragon.error(list, "List is empty")
+                    raise IndexError
+                return l.pop() 
 
                 
                 

@@ -11,6 +11,7 @@ class VarType(Enum):
     DYNAMIC = 3
     FUN = 4
     BOOL = 5 # for boolean data type 
+    LIST = 6        
 
 @dataclass
 class Expression:

@@ -5,6 +5,8 @@ from TokenType import *
 from Parser import *
 from ASTPrinter import *
 from Interpreter import *
+from Interpreter2 import *
+from Resolve import *
 
 
 class Dragon:
@@ -40,12 +42,20 @@ class Dragon:
         tokens = scanner.scanTokens()
         parse = Parser(tokens, self)
         statements = parse.parse()
-        if self.hadError : return
-        try :
-            interpreter = Interpreter(statements,self)
-            interpreter.interprete()
-        except:
-            exit(-1)
+        resolver = Resolve(statements,self)
+        resolver.resolvii()
+        statements = resolver.statements
+        
+        if self.hadError : 
+            return
+        # try :
+        #     interpreter = Interpreter2(statements,self)
+        #     interpreter.interprete()
+        # except:
+        #     print("working")
+        #     exit(-1)
+        interpreter = Interpreter2(statements,self)
+        interpreter.interprete()
         
             
     def error(self,line : int, message):

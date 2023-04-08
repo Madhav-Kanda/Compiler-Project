@@ -19,6 +19,7 @@ class Resolve:
     def resolve(self, statements):
         
         def resolveExpression(expression):
+            t = expression
             match expression:
                 case Binary(left,operator,right):
                     re1 = resolveExpression(expression.left)
@@ -30,12 +31,12 @@ class Resolve:
                     self.id+=1
                     re1 = resolveExpression(expression.e1)
                     dummy = copy.copy(expression)
-                    self.env.defineValue(dummy,VarType.INT,self.id)
+                    self.env.defineValue(dummy.name,VarType.INT,self.id)
                     expression.name.lexeme = (name.lexeme, self.id)
                     re2 = resolveExpression(expression.e2)
                     self.env.exitBlock()
                 case Grouping(expression):
-                    resolveExpression(expression.expression)
+                    resolveExpression(t.expression)
                 case Assign(name,value):
                     resolveExpression(expression.value)
                     expression.name.lexeme = (expression.name.lexeme,self.env.getValue(name))
@@ -44,6 +45,32 @@ class Resolve:
                     expression.callee.lexeme = (expression.callee.lexeme,self.env.getValue(callee))
                     for i in range(len(arguments)):
                         resolveExpression(expression.arguments[i])
+                case List(elements):
+                    for i in expression.elements:
+                        resolveExpression(i)
+                case ListLength(list):
+                    resolveExpression(expression.list)
+                case ListIsEmpty(list):
+                    resolveExpression(expression.list)
+                case ListAccess(list,index):
+                    resolveExpression(expression.list)
+                    resolveExpression(expression.index)
+                case ListHead(list):
+                    resolveExpression(expression.list)
+                case ListTail(list):
+                    resolveExpression(expression.list)
+                case ListSlice(list,start,end):
+                    resolveExpression(expression.list)
+                    resolveExpression(expression.start)
+                    resolveExpression(expression.end)
+                case ListAppend(list,element):
+                    resolveExpression(expression.list)
+                    resolveExpression(expression.element)
+                case ListPop(list):
+                    resolveExpression(expression.list)
+                    
+                    
+                    
 
               
         

@@ -1,0 +1,7 @@
+int a = 5;
+int ans = 1;
+while(a!=0){
+    ans = ans*a;
+    a= a-1;
+}
+print ans; //120

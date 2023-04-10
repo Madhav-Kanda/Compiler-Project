@@ -215,6 +215,9 @@ class Interpreter:
                 self.env.stringbystring(expression.operator, l, r, expression.operator.lexeme)
                 if(isinstance(l,int) and isinstance(r,int)): return int(l/r)
                 return l/r
+            case "%": # modulo operator
+                self.env.stringbystring(expression.operator, l, r, expression.operator.lexeme)
+                return l%r 
             case "or":
                 return bool(l or r)
             case "and":

@@ -162,7 +162,7 @@ class Interpreter2:
     def Typecheck(self,vartype, value):
         match vartype:
             case VarType.INT:
-                if not isinstance(value,int): return False   
+                if not isinstance(value,int): return False    
             case VarType.BOOL:
                 if not isinstance(value,bool): return False 
             case VarType.FLOAT:
@@ -204,6 +204,9 @@ class Interpreter2:
                 self.env.stringbystring(expression.operator, l, r, expression.operator.lexeme)
                 if(isinstance(l,int) and isinstance(r,int)): return int(l/r)
                 return l/r
+            case "%": # modulo operator 
+                self.env.stringbystring(expression.operator, l, r, expression.operator.lexeme)
+                return l%r 
             case "or":
                 return bool(l or r)
             case "and":

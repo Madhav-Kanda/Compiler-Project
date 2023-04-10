@@ -14,7 +14,7 @@ class Resolve:
         self.env = StackEnvironment(dragon)
 
     def resolvii(self):
-        return self.resolve(self.statements)
+        return self.resolve(self.statements) 
 
     def resolve(self, statements):
         
@@ -91,7 +91,7 @@ class Resolve:
                     self.env.exitBlock()
                         
                 case Print(value):
-                    resolveExpression(statement.value)
+                    resolveExpression(statement.value) 
                 case If(condition,thenBranch,elseBranch):
                     resolveExpression(statement.condition)
                     self.resolve(statement.thenBranch.body)

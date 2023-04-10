@@ -7,6 +7,9 @@ from ASTPrinter import *
 from Interpreter import *
 from Interpreter2 import *
 from Resolve import *
+from Interpreter import *
+from VM import *
+from bytecode import *
 
 
 class Dragon:
@@ -45,6 +48,17 @@ class Dragon:
         resolver = Resolve(statements,self)
         resolver.resolvii()
         statements = resolver.statements
+
+        bytecode = codegen(statements)
+
+        with open ("bytecode_output.txt", "w") as f:
+            for i in bytecode.insns:
+                f.write(str(i) + "\n")
+            f.close()
+
+        v = VM()
+        v.load(bytecode)
+        print(v.execute())
         
         if self.hadError : 
             return

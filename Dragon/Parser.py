@@ -400,14 +400,14 @@ class Parser:
     # return leaf node of the tree
     def primary(self):
         if self.match([TokenType.LEFT_SQUARE]): return self.list() 
-        if self.match([TokenType.LIST_LENGTH]): return self.list_length()
+        if self.match([TokenType.LIST_LENGTH]): return self.list_length() 
         if self.match([TokenType.LIST_ISEMPTY]): return self.list_isempty() 
         if self.match([TokenType.LIST_ACCESS]): return self.list_access() 
         if self.match([TokenType.LIST_HEAD]): return self.list_head()
         if self.match([TokenType.LIST_TAIL]): return self.list_tail()
         if self.match([TokenType.LIST_SLICE]): return self.list_slice() 
         if self.match([TokenType.LIST_APPEND]): return self.list_append()
-        if self.match([TokenType.LIST_POP]): return self.list_pop()
+        if self.match([TokenType.LIST_POP]): return self.list_pop() 
         if self.match([TokenType.FALSE]) : return Literal(False)
         if self.match([TokenType.TRUE]) : return Literal(True)
         if self.match([TokenType.NIL]) : return Literal(None)
@@ -464,14 +464,20 @@ class Parser:
         return ListTail(list)
 
     def list_slice(self):
+        # with step 
         self.consume(TokenType.LEFT_PAREN,"Expect '(' after list slice")
         list = self.expression()
         self.consume(TokenType.COMMA,"Expect ',' after list")
         start = self.expression()
-        self.consume(TokenType.COMMA,"Expect ',' after start index")
+        self.consume(TokenType.COMMA,"Expect ',' after start") 
         end = self.expression()
-        self.consume(TokenType.RIGHT_PAREN,"Expect ')' after end index")
-        return ListSlice(list,start,end) 
+        if self.match([TokenType.COMMA]):
+            step = self.expression()
+            self.consume(TokenType.RIGHT_PAREN,"Expect ')' after step")
+            return ListSlice(list,start,end,step)
+        else:
+            self.consume(TokenType.RIGHT_PAREN,"Expect ')' after end")
+            return ListSlice(list,start,end,None) 
 
     def list_append(self):
         self.consume(TokenType.LEFT_PAREN,"Expect '(' after list append")

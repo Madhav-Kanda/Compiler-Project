@@ -63,6 +63,7 @@ class Resolve:
                     resolveExpression(expression.list)
                     resolveExpression(expression.start)
                     resolveExpression(expression.end)
+                    resolveExpression(expression.step)
                 case ListAppend(list,element):
                     resolveExpression(expression.list)
                     resolveExpression(expression.element)

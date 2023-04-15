@@ -24,6 +24,7 @@ class TokenType(Enum):
     LIST_ISEMPTY = 54 # for list empty or not 
     LIST_HEAD = 55 # for list head
     LIST_TAIL = 56 # for list tail
+    MODULO = 57 # for modulo (%) operator 
     
     # One or two character tokens.
     BANG = 11 

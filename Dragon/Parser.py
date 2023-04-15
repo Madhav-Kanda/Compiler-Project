@@ -58,7 +58,7 @@ class Parser:
         check =  self.match([TokenType.RIGHT_BRACE])
         while not check and not self.isAtEnd():
             ans.body.append(self.statement())
-            check =  self.match([TokenType.RIGHT_BRACE])
+            check =  self.match([TokenType.RIGHT_BRACE]) 
         if not check :
             self.consume(TokenType.RIGHT_BRACE, "Expected '}'")
         return ans
@@ -202,7 +202,7 @@ class Parser:
         name = self.consume(TokenType.IDENTIFIER,"Expect variable name")
         initailizer = None
 
-        if (self.match([TokenType.EQUAL])):
+        if (self.match([TokenType.EQUAL])): 
             initailizer = self.expression()
 
         elif(self.match([TokenType.LEFT_PAREN])) :
@@ -224,9 +224,9 @@ class Parser:
         expr = self.or_()
         if self.match([TokenType.EQUAL]):
             equals = self.previous()
-            value = self.assignment()
+            value = self.assignment() 
             
-            if isinstance(expr,Variable):
+            if isinstance(expr,Variable): 
                 name = expr.name
                 return Assign(name,value)
             
@@ -280,7 +280,7 @@ class Parser:
     # check current token is particular type or not
     def check(self, type):
         if(self.isAtEnd()): return False
-        return self.peek().type == type;
+        return self.peek().type == type
     
     #  return current token and increase pointer by 1
     def advance(self):
@@ -289,7 +289,7 @@ class Parser:
     
     # check if pointer is at end of the code file 
     def isAtEnd(self) :
-        return self.peek().type == TokenType.EOF;
+        return self.peek().type == TokenType.EOF
     
     # returns current token
     def peek(self) :
@@ -320,7 +320,7 @@ class Parser:
     
     # grammar non terminal comparison return expression with (+,-) operator as root if exists
     def term(self):
-        expr = self.factor()
+        expr = self.mod()
         while self.match([TokenType.MINUS, TokenType.PLUS]):
             operator = self.previous()
             right = self.factor()
@@ -336,6 +336,18 @@ class Parser:
             expr = Binary(expr,operator,right)
             
         return expr
+
+    
+    # grammar non terminal comparison return expression with (%) operator as root if exists
+    def mod(self):
+        expr = self.factor()
+        while(self.match([TokenType.MODULO])):
+            operator = self.previous()
+            right = self.factor()
+            expr = Binary(expr,operator,right)
+            
+        return expr 
+
     # grammar non terminal comparison return expression with (!,-) operator as root if exists
     def unary(self):
         if( self.match([TokenType.BANG,TokenType.MINUS])):
@@ -388,14 +400,14 @@ class Parser:
     # return leaf node of the tree
     def primary(self):
         if self.match([TokenType.LEFT_SQUARE]): return self.list() 
-        if self.match([TokenType.LIST_LENGTH]): return self.list_length()
+        if self.match([TokenType.LIST_LENGTH]): return self.list_length() 
         if self.match([TokenType.LIST_ISEMPTY]): return self.list_isempty() 
         if self.match([TokenType.LIST_ACCESS]): return self.list_access() 
         if self.match([TokenType.LIST_HEAD]): return self.list_head()
         if self.match([TokenType.LIST_TAIL]): return self.list_tail()
         if self.match([TokenType.LIST_SLICE]): return self.list_slice() 
         if self.match([TokenType.LIST_APPEND]): return self.list_append()
-        if self.match([TokenType.LIST_POP]): return self.list_pop()
+        if self.match([TokenType.LIST_POP]): return self.list_pop() 
         if self.match([TokenType.FALSE]) : return Literal(False)
         if self.match([TokenType.TRUE]) : return Literal(True)
         if self.match([TokenType.NIL]) : return Literal(None)
@@ -452,14 +464,20 @@ class Parser:
         return ListTail(list)
 
     def list_slice(self):
+        # with step 
         self.consume(TokenType.LEFT_PAREN,"Expect '(' after list slice")
         list = self.expression()
         self.consume(TokenType.COMMA,"Expect ',' after list")
         start = self.expression()
-        self.consume(TokenType.COMMA,"Expect ',' after start index")
+        self.consume(TokenType.COMMA,"Expect ',' after start") 
         end = self.expression()
-        self.consume(TokenType.RIGHT_PAREN,"Expect ')' after end index")
-        return ListSlice(list,start,end) 
+        if self.match([TokenType.COMMA]):
+            step = self.expression()
+            self.consume(TokenType.RIGHT_PAREN,"Expect ')' after step")
+            return ListSlice(list,start,end,step)
+        else:
+            self.consume(TokenType.RIGHT_PAREN,"Expect ')' after end")
+            return ListSlice(list,start,end,None) 
 
     def list_append(self):
         self.consume(TokenType.LEFT_PAREN,"Expect '(' after list append")

@@ -93,6 +93,8 @@ class Scanner :
                 self.addToken(TokenType.STAR)
             case '!':
                 self.addToken(TokenType.BANG_EQUAL if self.match('=') else TokenType.BANG)
+            case '%' : # modulo operator 
+                self.addToken(TokenType.MODULO) 
             case '=':
                 self.addToken(TokenType.EQUAL_EQUAL if self.match('=') else TokenType.EQUAL)
             case '<':

@@ -146,17 +146,27 @@ class Interpreter:
                     self.dragon.error(list, "List is empty")
                     raise IndexError
                 return l[1:] 
-            case ListSlice(list, start, end):
+            case ListSlice(list, start, end, step):
                 l = self.evalExpression(list)
                 s = self.evalExpression(start)
                 e = self.evalExpression(end)
-                if s < 0 or s >= len(l):
+                
+                if step is not None:
+                    st = self.evalExpression(step)
+                else:
+                    st = 1
+                
+                if s >= len(l):
                     self.dragon.error(start, "Index out of range")
                     raise IndexError
-                if e < 0 or e >= len(l):
+                if e >= len(l):
                     self.dragon.error(end, "Index out of range")
                     raise IndexError
-                return l[s:e] 
+                if st == 0:
+                    self.dragon.error(step, "Step cannot be 0")
+                    raise IndexError
+                
+                return l[s:e:st] 
             case ListAppend(list, elem):
                 l = self.evalExpression(list)
                 e = self.evalExpression(elem)
@@ -215,6 +225,9 @@ class Interpreter:
                 self.env.stringbystring(expression.operator, l, r, expression.operator.lexeme)
                 if(isinstance(l,int) and isinstance(r,int)): return int(l/r)
                 return l/r
+            case "%": # modulo operator
+                self.env.stringbystring(expression.operator, l, r, expression.operator.lexeme)
+                return l%r 
             case "or":
                 return bool(l or r)
             case "and":

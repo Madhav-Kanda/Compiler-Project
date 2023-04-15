@@ -1,0 +1,8 @@
+int a = 5%3; 
+print(a);
+int b = 7%4;
+print(b);
+int c = 20%20;
+print(c);
+int d = 20%21;
+print(d);

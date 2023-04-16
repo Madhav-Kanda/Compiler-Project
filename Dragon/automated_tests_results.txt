@@ -1,6 +1,8 @@
 test1: accepted
-test10: accepted
-test2: accepted
+test10: rejected
+test11: rejected
+test12: rejected
+test2: rejected
 test3: accepted
 test4: accepted
 test5: accepted

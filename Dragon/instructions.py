@@ -14,10 +14,6 @@ class I:
         what: Literal
 
     @dataclass
-    class UMINUS:
-        pass
-
-    @dataclass
     class ADD:
         pass
 
@@ -43,6 +39,14 @@ class I:
 
     @dataclass
     class EXP:
+        pass
+
+    @dataclass
+    class AND:
+        pass
+
+    @dataclass
+    class OR:
         pass
 
     @dataclass
@@ -132,6 +136,8 @@ class I:
 
 Instruction = (
       I.PUSH
+    | I.AND
+    | I.OR
     | I.ADD
     | I.SUB
     | I.MUL
@@ -139,7 +145,6 @@ Instruction = (
     | I.QUOT
     | I.REM
     | I.NOT
-    | I.UMINUS
     | I.JMP
     | I.JMP_IF_FALSE
     | I.JMP_IF_TRUE

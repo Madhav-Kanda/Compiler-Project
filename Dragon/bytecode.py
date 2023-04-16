@@ -57,6 +57,11 @@ def codegen_(statement, code):
         TokenType.GREATER_EQUAL: I.GE(),
         TokenType.LESS: I.LT(),
         TokenType.LESS_EQUAL: I.LE(),
+        TokenType.AND: I.AND(),
+        TokenType.OR: I.OR(),
+        TokenType.BANG: I.NOT(),
+        TokenType.UMINUS: I.NEG(),
+
     }
 
     match statement:

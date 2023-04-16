@@ -66,3 +66,4 @@ class TokenType(Enum):
     FUN = 45
     PRINT = 44
     DYNAMIC = 46
+    UMINUS = 58 # for unary minus operator

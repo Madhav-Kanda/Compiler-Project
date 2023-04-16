@@ -1,8 +1,37 @@
 # **Compiler-Project**
+
 <img src="img/dragon.png" width=30% height=30%>
 
+## **Getting Started**
+
+### **Step 1: Clone the repository**
+
+The first step is to clone the repository to your local machine. To do this, you'll need to have Git installed. Once you have Git installed, open up your terminal and run the following command:
+
+```
+git clone https://github.com/Syntax-Sorcerers/Compiler-Project.git
+```
+
+### **Step 2: Running the code**
+
+Ensure that the python version is 3.10 or above. For running the code type the following command in the terminal:
+
+```
+python dragon.py ${relative-path}
+```
+
+Here ${relative-path} is the path of the .txt file containing the code to be executed relative to the Dragon folder (The present working directory being the dragon folder).
+
+### **Step 3: Testing the compiler (Optional)**
+
+To test the various aspects of the language and the compiler, we have provided a set of test cases in the test folder. To run the test cases, run the following command in the terminal:
+
+```
+python automated_test_runner.py
+```
 
 ## **Project Overview**
+
 Our team is building a compiler from scratch using the Python programming language. The goal of this project is to create a full-featured compiler that can handle the complete compilation process, including lexical analysis, parsing, semantic analysis, and optimization. This compiler project will serve as a comprehensive learning experience for our team, as we will be implementing all the features from scratch. We will be utilizing the latest techniques in compiler design and construction, ensuring that our compiler is efficient, scalable, and easy to use.
 
 The target language for our compiler will be a high-level programming language in our project we are calling it dragon, and we are evaluating with and without bytecode generation. Output given by parser can be run on variety of platforms. Our compiler will support advanced features such as error handling, making it suitable for both academic and commercial use.
@@ -26,6 +55,16 @@ For this project, we are using python 3.10. We will write all the features of ou
 [Interpreter](docs/INTERPRETER.md) - evaluating AST tree.
 
 [Environment](docs/ENVIRONMENT.md) - data structure for binding value to its variables.
+
+[Bytecode](docs/BYTECODE.md) - generating bytecode from AST tree.
+
+[Resolver](docs/RESOLVER.md) - resolving variable and function references.
+
+[VM](docs/VM.md) - virtual machine for running bytecode.
+
+[VM Instructions](docs/INSTRUCTIONS.md) - instructions for VM.
+
+[Checklist](docs/Checklist.md) - Tasks completed in the project.
 
 ## **Reference**
 

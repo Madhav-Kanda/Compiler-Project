@@ -13,6 +13,8 @@ We have implemented two approaches for the problem - brute force and dynammic pr
 
 <hr>
 
+
+
 ## Comparision 
 Brute force takes a lot more time than the DP approach because it is not optmimised. For input of `1,000,000`, time take by brute force was more than `20 mins`, whereas using DP we could output the result in nearly `1.25 mins`. 
 
@@ -25,6 +27,18 @@ For brute force approach:
 For DP approach: 
 
 <img src="dp/output_1000000.jpg">
+
+<hr>
+
+## Brute force approach completed in given time frame
+
+
+In brute force approach we calculated time by running programme on resolved ast done after first evaluation. It takes less than 4 min for $10^5$ value. 
+
+
+<img src ="brute force/output_100000.jpg"> 
+
+
 
 <hr>
 

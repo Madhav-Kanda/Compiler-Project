@@ -1,0 +1,2 @@
+int maci = -1;
+int mabib = 0;

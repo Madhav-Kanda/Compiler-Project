@@ -100,12 +100,13 @@ class ListTail:
     # def accept(self):
     #     return AstPrinter.visit_list_tail_expr(self)
 
-# data class for ListSlice
+# data class for ListSlice with step
 @dataclass
 class ListSlice:
     list : 'Expr'
     start : 'Expr'
     end : 'Expr'
+    step: 'Expr'
 
     # def accept(self):
     #     return AstPrinter.visit_list_slice_expr(self) 

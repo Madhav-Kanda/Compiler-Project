@@ -403,6 +403,7 @@ class Parser:
         if self.match([TokenType.LIST_LENGTH]): return self.list_length() 
         if self.match([TokenType.LIST_ISEMPTY]): return self.list_isempty() 
         if self.match([TokenType.LIST_ACCESS]): return self.list_access() 
+        if self.match([TokenType.LIST_ASSIGN]): return self.list_assign()
         if self.match([TokenType.LIST_HEAD]): return self.list_head()
         if self.match([TokenType.LIST_TAIL]): return self.list_tail()
         if self.match([TokenType.LIST_SLICE]): return self.list_slice() 
@@ -450,6 +451,16 @@ class Parser:
         index = self.expression() 
         self.consume(TokenType.RIGHT_PAREN,"Expect ')' after index")
         return ListAccess(list,index) 
+    
+    def list_assign(self):
+        self.consume(TokenType.LEFT_PAREN,"Expect '(' after list assign")
+        list = self.expression()
+        self.consume(TokenType.COMMA,"Expect ',' after list")
+        index = self.expression()  
+        self.consume(TokenType.COMMA,"Expect ',' after index")
+        value = self.expression() 
+        self.consume(TokenType.RIGHT_PAREN,"Expect ')' after value")
+        return ListAssign(list,index,value) 
     
     def list_head(self):
         self.consume(TokenType.LEFT_PAREN,"Expect '(' after list head")

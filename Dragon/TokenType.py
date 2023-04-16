@@ -25,6 +25,7 @@ class TokenType(Enum):
     LIST_HEAD = 55 # for list head
     LIST_TAIL = 56 # for list tail
     MODULO = 57 # for modulo (%) operator 
+    LIST_ASSIGN = 58 # for list assignment 
     
     # One or two character tokens.
     BANG = 11 

@@ -1,0 +1,54 @@
+int func(int n, var dp){
+    if (n == 1){
+        return 1;
+    }
+
+    if (n <= 1000000){
+        if (access(dp, n) > 0){ 
+            int z = access(dp, n);
+            return z;
+        }
+    } 
+
+    int x = 0;
+
+    if (n % 2 == 0){ 
+        x = 1 + func(n/2, dp);
+    } else {
+        x = 1 + func(3*n + 1, dp); 
+    }
+
+    if (n <= 1000000){
+        assign(dp, n, x);
+    }
+
+    return x; 
+}
+
+var dp = []; 
+for (int i = 0; i < 1000001; i = i + 1){
+    append(dp, 0);
+}
+
+// change the 'inp' variable to change the input 
+int inp = 1000000;
+
+int max_length = 0;
+int max_num = 0; 
+
+for (int st = 1; st <= inp; st = st + 1){
+    int y = func(st, dp);
+
+    if (y > max_length){
+        max_length = y;
+        max_num = st;
+    } 
+}
+
+print("For input: ");
+print(inp);
+print("----------------");
+print("Output: "); 
+print(max_num);
+print("----------------");
+print("Time taken: "); 

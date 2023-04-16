@@ -30,6 +30,7 @@ class Scanner :
                 "access" : TokenType.LIST_ACCESS, 
                 "slice" : TokenType.LIST_SLICE,
                 "append" : TokenType.LIST_APPEND,
+                "assign" : TokenType.LIST_ASSIGN,
                 "pop" : TokenType.LIST_POP, 
                 "length" : TokenType.LIST_LENGTH,
                 "isEmpty": TokenType.LIST_ISEMPTY,

@@ -64,7 +64,7 @@ For this project, we are using python 3.10. We will write all the features of ou
 
 [VM Instructions](docs/INSTRUCTIONS.md) - instructions for VM.
 
-[Checklist](docs/checklist.md) - Tasks completed in the project.
+[Checklist](docs/Checklist.md) - Tasks completed in the project.
 
 ## **Reference**
 

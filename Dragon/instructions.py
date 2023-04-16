@@ -1,6 +1,7 @@
 from TokenType import *
 from Expr import *
 from Stmt import *
+from typing import Tuple
 
 @dataclass
 class Label:
@@ -105,12 +106,16 @@ class I:
         ID: int
 
     @dataclass
+    class PRINT:
+        pass
+
+    @dataclass
     class PUSHFN:
         entry: Label
 
     @dataclass
     class CALL:
-        pass
+        ID: int
 
     @dataclass
     class RETURN:
@@ -119,6 +124,11 @@ class I:
     @dataclass
     class HALT:
         pass
+
+    @dataclass
+    class PUSHFN:
+        offset: Label
+        func_id: int
 
 Instruction = (
       I.PUSH

@@ -84,6 +84,17 @@ class ListAccess:
     # def accept(self):
     #     return AstPrinter.visit_list_access_expr(self) 
 
+
+# data class for list assign 
+@dataclass
+class ListAssign:
+    list : 'Expr'
+    index : 'Expr'
+    value : 'Expr'
+
+    # def accept(self):
+    #     return AstPrinter.visit_list_assign_expr(self)
+
 # data class for head of a list
 @dataclass
 class ListHead:

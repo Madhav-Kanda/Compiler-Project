@@ -2,6 +2,8 @@ from  Expr import *
 from Stmt import *
 from StackEnvironment import *
 from frames import *
+import sys
+sys.setrecursionlimit(10000) 
 
 class TypeError(Exception):
     pass
@@ -122,7 +124,16 @@ class Interpreter2:
                 if i >= len(l):
                     self.dragon.error(index, "Index out of range")
                     raise IndexError 
-                return l[i]
+                return l[i] 
+            case ListAssign(list, index, value): 
+                l = self.evalExpression(list) 
+                i = self.evalExpression(index)
+                v = self.evalExpression(value)
+                if i >= len(l):
+                    self.dragon.error(index, "Index out of range")
+                    raise IndexError
+                l[i] = v
+                return 
             case ListHead(list):
                 l = self.evalExpression(list)
                 if len(l)==0:

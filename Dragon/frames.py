@@ -98,7 +98,7 @@ class frame:
                 env[token.lexeme]=(VarType.FUN,value,1)      
                 
     def getValue(self, token):
-        return self.stack[-1][token.lexeme][1]
+        return self.stack[-1][token.lexeme][1] 
     
     def checkTypeCompatibility(self, token, lvalue, rvalue, operator):
         if (isinstance(lvalue, int) and isinstance(rvalue, int)) or \

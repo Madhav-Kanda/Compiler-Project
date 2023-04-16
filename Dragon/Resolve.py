@@ -55,6 +55,10 @@ class Resolve:
                 case ListAccess(list,index):
                     resolveExpression(expression.list)
                     resolveExpression(expression.index)
+                case ListAssign(list,index,value):
+                    resolveExpression(expression.list)
+                    resolveExpression(expression.index)
+                    resolveExpression(expression.value)
                 case ListHead(list):
                     resolveExpression(expression.list)
                 case ListTail(list):

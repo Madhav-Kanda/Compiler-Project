@@ -106,7 +106,7 @@ class ListSlice:
     list : 'Expr'
     start : 'Expr'
     end : 'Expr'
-    step : 'Expr'
+    step: 'Expr'
 
     # def accept(self):
     #     return AstPrinter.visit_list_slice_expr(self) 
@@ -142,7 +142,11 @@ class Let:
     e1: 'Expr'
     e2: 'Expr' 
  
+ 
+@dataclass
+class CompiledFunction:
+    entry: int
    
-Expr = Binary | Grouping | Literal | Unary| Let
+Expr = Binary | Grouping | Literal | Unary| Let | CompiledFunction
 
 from ASTPrinter import AstPrinter

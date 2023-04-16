@@ -20,6 +20,8 @@ class VM:
     ip: int
     data: list[Literal]
     currentFrame: Frame
+    id_to_target: dict[int, int]
+    function_id: list[int]
 
     def load(self, bytecode):
         self.bytecode = bytecode
@@ -29,22 +31,30 @@ class VM:
         self.ip = 0
         self.data = []
         self.currentFrame = Frame()
+        self.id_to_target = {}
+        self.function_id = []
 
     def execute(self) -> Literal:
-        lastval = None
         while self.ip < len(self.bytecode.insns):
             match self.bytecode.insns[self.ip]:
                 case I.PUSH(val):
                     self.data.append(val)
                     self.ip += 1
-                case I.CALL():
+                case I.PUSHFN(Label(offset), func_id):
+                    self.id_to_target[func_id] = offset
+                    self.data.append(offset)
+                    # self.data.append(CompiledFunction(offset))
+                    self.ip += 1
+                    self.function_id.append(func_id)
+                case I.CALL(localID):
                     self.currentFrame = Frame (
                         retaddr=self.ip + 1,
                         dynamicLink=self.currentFrame
                     )
-                    cf = self.data.pop()
-                    self.ip = cf.entry
+
+                    self.ip = self.id_to_target[localID]
                 case I.RETURN():
+                    # print(self.data)
                     self.ip = self.currentFrame.retaddr
                     self.currentFrame = self.currentFrame.dynamicLink
                 case I.UMINUS():
@@ -133,11 +143,16 @@ class VM:
                     self.data.pop()
                     self.ip += 1
                 case I.LOAD(localID):
-                    self.data.append(self.currentFrame.locals[localID])
+                    if (localID not in self.function_id):
+                        self.data.append(self.currentFrame.locals[localID])
                     self.ip += 1
                 case I.STORE(localID):
-                    lastval = val = self.data.pop()
+                    val = self.data.pop()
                     self.currentFrame.locals[localID] = val
                     self.ip += 1
+                case I.PRINT():
+                    val = self.data.pop()
+                    print(val)
+                    self.ip += 1
                 case I.HALT():
-                    return lastval
+                    return

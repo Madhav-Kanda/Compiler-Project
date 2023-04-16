@@ -19,6 +19,20 @@ class ByteCode:
     def emit_label(self, label):
         label.target = len(self.insns)
 
+def print_bytecode(code: ByteCode):
+    for i, insn in enumerate(code.insns):
+        match insn:
+            case I.JMP(Label(offset)) | I.JMP_IF_TRUE(Label(offset)) | I.JMP_IF_FALSE(Label(offset)):
+                print(f"{i:=4} {insn.__class__.__name__:<15} target = {offset}")
+            case I.LOAD(localID) | I.STORE(localID) | I.CALL(localID):
+                print(f"{i:=4} {insn.__class__.__name__:<15} id = {localID}")
+            case I.PUSH(value):
+                print(f"{i:=4} {'PUSH':<15} value = {value}")
+            case I.PUSHFN(Label(offset), func_id):
+                print(f"{i:=4} {'PUSHFN':<15} target = {offset}, id = {func_id} ")
+            case _:
+                print(f"{i:=4} {insn.__class__.__name__:<15}")
+
 
 def codegen(statements):
     code = ByteCode()
@@ -98,6 +112,28 @@ def codegen_(statement, code):
             code.emit(I.JMP(B))
             code.emit_label(E)
             code.emit(I.PUSH(None))
+        case Print(expression):
+            codegen_(expression, code)
+            code.emit(I.PRINT())
+        case Function (name, type, params, body):
+            EXPREBEGIN = code.label()
+            FBEGIN = code.label()
+            code.emit(I.JMP(EXPREBEGIN))
+            code.emit_label(FBEGIN)
+            for param in reversed(params):
+                code.emit(I.STORE(param[0].lexeme[1]))
+            codegen_(body, code)
+            code.emit_label(EXPREBEGIN)
+            code.emit(I.PUSHFN(FBEGIN, name.lexeme[1]))
+            code.emit(I.STORE(name.lexeme[1]))
+        case Call(callee, args):
+            for arg in args:
+                codegen_(arg, code)
+            code.emit(I.LOAD(callee.lexeme[1]))
+            code.emit(I.CALL(callee.lexeme[1]))
+        case Return(keyword, value):
+            codegen_(value, code)
+            code.emit(I.RETURN())
         case _:
             pass
 

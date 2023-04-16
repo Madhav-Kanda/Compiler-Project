@@ -57,9 +57,21 @@ class VM:
                     # print(self.data)
                     self.ip = self.currentFrame.retaddr
                     self.currentFrame = self.currentFrame.dynamicLink
-                case I.UMINUS():
+                case I.NEG():
                     op = self.data.pop()
                     self.data.append(-op)
+                    self.ip += 1
+                case I.AND():
+                    right = self.data.pop()
+                    left = self.data.pop()
+                    val = left and right
+                    self.data.append(val != 0)
+                    self.ip += 1
+                case I.OR():
+                    right = self.data.pop()
+                    left = self.data.pop()
+                    val = left or right
+                    self.data.append(val != 0)
                     self.ip += 1
                 case I.ADD():
                     right = self.data.pop()

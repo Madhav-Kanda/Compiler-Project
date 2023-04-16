@@ -51,7 +51,7 @@ class Dragon:
 
 
         bytecode = codegen(statements)
-        print_bytecode(bytecode)
+        # print_bytecode(bytecode)
 
         with open ("bytecode_output.txt", "w") as f:
             for i in bytecode.insns:

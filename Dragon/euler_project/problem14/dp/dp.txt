@@ -51,4 +51,7 @@ print("----------------");
 print("Output: "); 
 print(max_num);
 print("----------------");
+print("Max Length: ");
+print(max_length);
+print("----------------");
 print("Time taken: "); 

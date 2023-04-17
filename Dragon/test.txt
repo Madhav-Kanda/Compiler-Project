@@ -18,7 +18,7 @@ int func(int n, var dp){
         x = 1 + func(3*n + 1, dp); 
     }
 
-    if (n <= 1000000){
+    if (n <= 1000000){ 
         assign(dp, n, x);
     }
 
@@ -30,28 +30,27 @@ for (int i = 0; i < 1000001; i = i + 1){
     append(dp, 0);
 }
 
-// change the 'inp' variable to change the input 
-int inp = 10000;
-
 int max_length = 0;
 int max_num = 0; 
 
-for (int st = 1; st <= inp; st = st + 1){
-    int y = func(st, dp);
+for(int inp = 100; inp <= 1000000; inp = inp * 10){
+    for (int st = 1; st <= inp; st = st + 1){
+        int y = func(st, dp);
 
-    if (y > max_length){
-        max_length = y;
-        max_num = st;
-    } 
+        if (y > max_length){
+            max_length = y;
+            max_num = st;
+        } 
+    }
+    print("----------------");
+    print("For input: ");
+    print(inp);
+    print("Output: "); 
+    print(max_num);
+    print("Max Length: ");
+    print(max_length);
+    print("----------------");
 }
 
-print("For input: ");
-print(inp);
 print("----------------");
-print("Output: "); 
-print(max_num);
-print("----------------");
-print("Max Length: ");
-print(max_length);
-print("----------------");
-print("Time taken: "); 
+print("Total time taken: ");

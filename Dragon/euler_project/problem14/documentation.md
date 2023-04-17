@@ -64,3 +64,11 @@ We also make some changes in out function `func`. First, check if we have reache
 ## Conclusion
 
 Our code works for each input and produces the output within 5 minutes. 
+
+### Final Output: 
+
+<img src="dp/output_combined.jpg">
+
+<br>
+
+Combined time is less because we are saving time of overheads (like defining `dp` array, appending values to it, and updating the array for each new input). 

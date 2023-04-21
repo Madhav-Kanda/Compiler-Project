@@ -16,7 +16,7 @@ class Scanner :
                 "super" : TokenType.SUPER,
                 "this" : TokenType.THIS,
                 "true": TokenType.TRUE,
-                "var" : TokenType.VAR,
+                "var" : TokenType.VAR, 
                 "while" : TokenType.WHILE,
                 "let" : TokenType.LET,
                 "in" : TokenType.IN,
@@ -36,6 +36,12 @@ class Scanner :
                 "isEmpty": TokenType.LIST_ISEMPTY,
                 "head" : TokenType.LIST_HEAD,
                 "tail" : TokenType.LIST_TAIL,
+                "dict_access": TokenType.DICT_ACCESS,
+                "dict_length": TokenType.DICT_LENGTH,
+                "dict_assign": TokenType.DICT_ASSIGN,
+                "dict_add": TokenType.DICT_ADD,
+                "dict_remove": TokenType.DICT_REMOVE,
+                "dict_find": TokenType.DICT_FIND,
                 }  
     def __init__(self, source,dragon,tokens=[], start=0, current=0, line=1):
         self.source = source
@@ -76,7 +82,9 @@ class Scanner :
                 self.addToken(TokenType.LEFT_SQUARE)
             case ']':  # for list 
                 self.addToken(TokenType.RIGHT_SQUARE) 
-            case '{': 
+            case ':':
+                self.addToken(TokenType.COLON)
+            case '{':  
                 self.addToken(TokenType.LEFT_BRACE)
             case '}': 
                 self.addToken(TokenType.RIGHT_BRACE)

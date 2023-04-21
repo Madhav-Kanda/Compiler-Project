@@ -12,6 +12,7 @@ class VarType(Enum):
     FUN = 4
     BOOL = 5 # for boolean data type 
     LIST = 6        
+    DICT = 7 # for dictionary data type 
 
 @dataclass
 class Expression:

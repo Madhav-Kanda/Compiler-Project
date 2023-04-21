@@ -45,6 +45,30 @@ class Resolve:
                     expression.callee.lexeme = (expression.callee.lexeme,self.env.getValue(callee))
                     for i in range(len(arguments)):
                         resolveExpression(expression.arguments[i])
+                
+                case Dictionary(elements):
+                    for i in expression.elements:
+                        resolveExpression(i)
+                case DictLength(dict):
+                    resolveExpression(expression.dict)
+                case DictAccess(dict,key):
+                    resolveExpression(expression.dict)
+                    resolveExpression(expression.key)
+                case DictAssign(dict,key,value):
+                    resolveExpression(expression.dict)
+                    resolveExpression(expression.key)
+                    resolveExpression(expression.value)
+                case DictAdd(dict,key,value):
+                    resolveExpression(expression.dict)
+                    resolveExpression(expression.key)
+                    resolveExpression(expression.value)
+                case DictRemove(dict,key):
+                    resolveExpression(expression.dict)
+                    resolveExpression(expression.key)
+                case DictFind(dict,key):
+                    resolveExpression(expression.dict)
+                    resolveExpression(expression.key)
+
                 case List(elements):
                     for i in expression.elements:
                         resolveExpression(i)

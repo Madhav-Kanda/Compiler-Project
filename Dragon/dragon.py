@@ -64,14 +64,14 @@ class Dragon:
         
         if self.hadError : 
             return
-        try :
-            interpreter = Interpreter2(statements,self)
-            interpreter.interprete()
-        except:
-            print("working")
-            exit(-1)
-        # interpreter = Interpreter2(statements,self)
-        # interpreter.interprete()
+        # try :
+        #     interpreter = Interpreter2(statements,self)
+        #     interpreter.interprete()
+        # except:
+        #     print("not working")
+        #     exit(-1)
+        interpreter = Interpreter2(statements,self)
+        interpreter.interprete()
         
             
     def error(self,line : int, message):

@@ -1,0 +1,7 @@
+3
+{'name': 'John', 'age': 30, 'city': 'New York', 'country': 'USA'}
+{'name': 'John', 'city': 'New York', 'country': 'USA'}
+John
+{'name': 'Jack', 'city': 'New York', 'country': 'USA'}
+True
+False 

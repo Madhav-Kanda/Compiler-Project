@@ -49,6 +49,62 @@ class Variable:
 
     def accept(self):
         return AstPrinter.visit_variable_expr(self)
+    
+@dataclass
+class Dictionary:
+    elements: list[tuple['Expr','Expr']]
+
+    # def accept(self):
+    #     return AstPrinter.visit_dictionary_expr(self) 
+
+@dataclass
+class DictAccess:
+    dict : 'Expr'
+    key : 'Expr'
+
+    # def accept(self):
+    #     return AstPrinter.visit_dict_access_expr(self)
+
+@dataclass
+class DictLength:
+    dict : 'Expr'
+
+    # def accept(self):
+    #     return AstPrinter.visit_dict_length_expr(self)
+
+@dataclass
+class DictAssign:
+    dict : 'Expr'
+    key : 'Expr'
+    value : 'Expr'
+
+    # def accept(self):
+    #     return AstPrinter.visit_dict_assign_expr(self)
+
+@dataclass
+class DictAdd:
+    dict : 'Expr'
+    key : 'Expr'
+    value : 'Expr'
+
+    # def accept(self):
+    #     return AstPrinter.visit_dict_add_expr(self)
+
+@dataclass
+class DictRemove:
+    dict : 'Expr'
+    key : 'Expr'
+
+    # def accept(self):
+    #     return AstPrinter.visit_dict_remove_expr(self) 
+
+@dataclass
+class DictFind:
+    dict : 'Expr'
+    key : 'Expr'
+
+    # def accept(self):
+    #     return AstPrinter.visit_dict_find_expr(self) 
 
 @dataclass
 class List: 

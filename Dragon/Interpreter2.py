@@ -104,7 +104,46 @@ class Interpreter2:
                         self.evalStatement(i)
                     except ReturnValue as ret :
                         return ret.value
+            
+            case StringAccess(string,index):
+                s = self.evalExpression(string)
+                i = self.evalExpression(index)
+                if i >= len(s):
+                    self.dragon.error(index, "Index out of range")
+                    raise IndexError
+                return s[i]
+            
+            case StringLength(string):
+                s = self.evalExpression(string)
+                return len(s)
+            
+            case StringSlice(string, start, end, step):
+                s = self.evalExpression(string)
+                st = self.evalExpression(start)
+                e = self.evalExpression(end)
+
+                if step is not None:
+                    stp = self.evalExpression(step)
+                else:
+                    stp = 1
                 
+                if st >= len(s):
+                    self.dragon.error(start, "Index out of range")
+                    raise IndexError
+                if e >= len(s):
+                    self.dragon.error(end, "Index out of range")
+                    raise IndexError
+                if stp == 0:
+                    self.dragon.error(step, "Step cannot be 0")
+                    raise IndexError
+            
+                return s[st:e:stp]
+        
+            case StringLength(string):
+                s = self.evalExpression(string)
+                return len(s)
+            
+
             case Let(name, e1, e2):
                 value = self.evalExpression(e1)
                 self.env.defineValue(name, VarType.DYNAMIC, value)

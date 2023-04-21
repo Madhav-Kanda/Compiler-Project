@@ -36,7 +36,9 @@ More specific syntax we will see in below topics.
 
 [8 List](#8)
 
-[9 Project Euler](#9)
+[9 String](#9)
+
+[10 Project Euler](#10)
 
 **<h2 id="1">Variables and data-types</h2>**
 Language supports four types of variables
@@ -315,6 +317,32 @@ List's tail can be accessed using the following syntax:
     tail(list_name)
     ```
 
-**<h2 id="9">Project Euler</h2>**
+<h2 id="9">string</h2>
+
+It is a collection of characters which are ordered. String can be initialised using the following syntax:
+
+    ```
+    string string_name = "string"
+    ```
+
+String can be accessed using the following syntax:
+
+    ```
+    string_access(string_name, index)
+    ```
+
+String can be sliced using the following syntax:
+
+    ```
+    string_slice(string_name, start_index, end_index, step_size)
+    ```
+
+String length can be calculated using the following syntax:
+
+    ```
+    string_length(string_name)
+    ```
+
+**<h2 id="10">Project Euler</h2>**
 
 To validate the implementation of our compiler, we wrote the code of 5 problems from Project Euler in our compiler. All of the codes ran without any error being thrown and provided an output as expected. The questions, code and output can be accessed [here.](Euler.md)

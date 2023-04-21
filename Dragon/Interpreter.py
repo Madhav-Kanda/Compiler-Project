@@ -224,7 +224,40 @@ class Interpreter:
                     self.dragon.error(list, "List is empty")
                     raise IndexError
                 return l.pop() 
+            
+            case StringAccess(string, index):
+                s = self.evalExpression(string)
+                i = self.evalExpression(index)
+                if i >= len(s):
+                    self.dragon.error(index, "Index out of range")
+                    raise IndexError
+                return s[i]
+            
+            case StringSlice(string, start, end, step):
+                s = self.evalExpression(string)
+                st = self.evalExpression(start)
+                e = self.evalExpression(end)
 
+                if step is not None:
+                    stp = self.evalExpression(step)
+                else:
+                    stp = 1
+                
+                if st >= len(s):
+                    self.dragon.error(start, "Index out of range")
+                    raise IndexError
+                if e >= len(s):
+                    self.dragon.error(end, "Index out of range")
+                    raise IndexError
+                if stp == 0:
+                    self.dragon.error(step, "Step cannot be 0")
+                    raise IndexError
+            
+                return s[st:e:stp]
+        
+            case StringLength(string):
+                s = self.evalExpression(string)
+                return len(s)
                 
                 
     def Typecheck(self,vartype, value):

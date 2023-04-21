@@ -110,6 +110,44 @@ class Interpreter2:
                 self.env.defineValue(name, VarType.DYNAMIC, value)
                 c = self.evalExpression(e2)
                 return c
+            
+            case Dictionary(elems):
+                return {self.evalExpression(i[0]):self.evalExpression(i[1]) for i in elems} 
+            case DictLength(dict):
+                d = self.evalExpression(dict)
+                return len(d)
+            case DictAccess(dict, key):
+                d = self.evalExpression(dict)
+                k = self.evalExpression(key)
+                if k not in d:
+                    self.dragon.error(key, "Key not found")
+                    raise KeyError
+                return d[k] 
+            case DictAssign(dict, key, value):
+                d = self.evalExpression(dict)
+                k = self.evalExpression(key)
+                v = self.evalExpression(value)
+                d[k] = v
+            case DictAdd(dict, key, value):
+                d = self.evalExpression(dict)
+                k = self.evalExpression(key)
+                v = self.evalExpression(value)
+                if k in d:
+                    self.dragon.error(key, "Key already exists")
+                    raise KeyError
+                d[k] = v 
+            case DictRemove(dict, key):
+                d = self.evalExpression(dict)
+                k = self.evalExpression(key)
+                if k not in d:
+                    self.dragon.error(key, "Key not found")
+                    raise KeyError
+                del d[k] 
+            case DictFind(dict, key):
+                d = self.evalExpression(dict)
+                k = self.evalExpression(key)
+                return k in d 
+            
             case List(elems):
                 return [self.evalExpression(i) for i in elems] 
             case ListLength(list):

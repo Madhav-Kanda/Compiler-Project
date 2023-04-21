@@ -409,6 +409,15 @@ class Parser:
         if self.match([TokenType.LIST_SLICE]): return self.list_slice() 
         if self.match([TokenType.LIST_APPEND]): return self.list_append()
         if self.match([TokenType.LIST_POP]): return self.list_pop() 
+
+        if self.match([TokenType.LEFT_BRACE]): return self.dictionary()
+        if self.match([TokenType.DICT_ACCESS]): return self.dict_access() 
+        if self.match([TokenType.DICT_LENGTH]): return self.dict_length()
+        if self.match([TokenType.DICT_ASSIGN]): return self.dict_assign()
+        if self.match([TokenType.DICT_ADD]): return self.dict_add()
+        if self.match([TokenType.DICT_REMOVE]): return self.dict_remove()
+        if self.match([TokenType.DICT_FIND]): return self.dict_find() 
+
         if self.match([TokenType.FALSE]) : return Literal(False)
         if self.match([TokenType.TRUE]) : return Literal(True)
         if self.match([TokenType.NIL]) : return Literal(None)
@@ -422,6 +431,68 @@ class Parser:
             return Grouping(expr)
         
         raise self.error(self.peek(), "Expect expression") 
+
+    def dictionary(self):
+        elements = []
+        if not self.check(TokenType.RIGHT_BRACE):
+            while True:
+                key = self.expression()
+                self.consume(TokenType.COLON,"Expect ':' after key")
+                value = self.expression()
+                elements.append((key,value))
+                if not self.match([TokenType.COMMA]): break
+        self.consume(TokenType.RIGHT_BRACE,"Expect '}' after dictionary elements") 
+        return Dictionary(elements) 
+
+    def dict_length(self):
+        self.consume(TokenType.LEFT_PAREN,"Expect '(' after dict length")
+        dict = self.expression()
+        self.consume(TokenType.RIGHT_PAREN,"Expect ')' after dict")
+        return DictLength(dict)
+    
+    def dict_access(self):
+        self.consume(TokenType.LEFT_PAREN,"Expect '(' after dict access")
+        dict = self.expression()
+        self.consume(TokenType.COMMA,"Expect ',' after dict")
+        key = self.expression()
+        self.consume(TokenType.RIGHT_PAREN,"Expect ')' after dict")
+        return DictAccess(dict,key)
+    
+    def dict_assign(self):
+        self.consume(TokenType.LEFT_PAREN,"Expect '(' after dict assign")
+        dict = self.expression()
+        self.consume(TokenType.COMMA,"Expect ',' after dict")
+        key = self.expression()
+        self.consume(TokenType.COMMA,"Expect ',' after key")
+        value = self.expression()
+        self.consume(TokenType.RIGHT_PAREN,"Expect ')' after dict")
+        return DictAssign(dict,key,value)
+    
+    def dict_add(self):
+        self.consume(TokenType.LEFT_PAREN,"Expect '(' after dict add")
+        dict = self.expression()
+        self.consume(TokenType.COMMA,"Expect ',' after dict")
+        key = self.expression()
+        self.consume(TokenType.COMMA,"Expect ',' after key")
+        value = self.expression()
+        self.consume(TokenType.RIGHT_PAREN,"Expect ')' after dict")
+        return DictAdd(dict,key,value)
+    
+    def dict_remove(self):
+        self.consume(TokenType.LEFT_PAREN,"Expect '(' after dict remove")
+        dict = self.expression()
+        self.consume(TokenType.COMMA,"Expect ',' after dict")
+        key = self.expression()
+        self.consume(TokenType.RIGHT_PAREN,"Expect ')' after dict")
+        return DictRemove(dict,key)
+    
+    def dict_find(self):
+        self.consume(TokenType.LEFT_PAREN,"Expect '(' after dict find")
+        dict = self.expression()
+        self.consume(TokenType.COMMA,"Expect ',' after dict")
+        key = self.expression()
+        self.consume(TokenType.RIGHT_PAREN,"Expect ')' after dict")
+        return DictFind(dict,key)
 
     def list(self):
         elements = []

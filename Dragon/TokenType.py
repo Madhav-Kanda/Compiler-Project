@@ -26,6 +26,13 @@ class TokenType(Enum):
     LIST_TAIL = 56 # for list tail
     MODULO = 57 # for modulo (%) operator 
     LIST_ASSIGN = 58 # for list assignment 
+    COLON = 59 # for dictionary
+    DICT_ACCESS = 60 # for dictionary indexing 
+    DICT_LENGTH = 61 # for dictionary length
+    DICT_ASSIGN = 62 # for dictionary assignment
+    DICT_ADD = 63 # for dictionary adding
+    DICT_REMOVE = 64 # for dictionary removing
+    DICT_FIND = 65 # for dictionary finding 
     
     # One or two character tokens.
     BANG = 11 

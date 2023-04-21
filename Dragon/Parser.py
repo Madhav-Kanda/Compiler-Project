@@ -418,6 +418,11 @@ class Parser:
         if self.match([TokenType.DICT_REMOVE]): return self.dict_remove()
         if self.match([TokenType.DICT_FIND]): return self.dict_find() 
 
+        if self.match([TokenType.STRING_LENGTH]): return self.string_length()
+        if self.match([TokenType.STRING_ACCESS]): return self.string_access()
+        if self.match([TokenType.STRING_SLICE]): return self.string_slice()
+
+
         if self.match([TokenType.FALSE]) : return Literal(False)
         if self.match([TokenType.TRUE]) : return Literal(True)
         if self.match([TokenType.NIL]) : return Literal(None)
@@ -523,6 +528,8 @@ class Parser:
         self.consume(TokenType.RIGHT_PAREN,"Expect ')' after index")
         return ListAccess(list,index) 
     
+
+
     def list_assign(self):
         self.consume(TokenType.LEFT_PAREN,"Expect '(' after list assign")
         list = self.expression()
@@ -575,7 +582,36 @@ class Parser:
         self.consume(TokenType.RIGHT_PAREN,"Expect ')' after list")
         return ListPop(list) 
         
+
+    def string_slice(self):
+        self.consume(TokenType.LEFT_PAREN,"Expect '(' after string slice")
+        string = self.expression()
+        self.consume(TokenType.COMMA,"Expect ',' after string")
+        start = self.expression()
+        self.consume(TokenType.COMMA,"Expect ',' after start") 
+        end = self.expression()
+        if self.match([TokenType.COMMA]):
+            step = self.expression()
+            self.consume(TokenType.RIGHT_PAREN,"Expect ')' after step")
+            return StringSlice(string,start,end,step)
+        else:
+            self.consume(TokenType.RIGHT_PAREN,"Expect ')' after end")
+            return StringSlice(string,start,end,None)
         
+    def string_access(self):
+        self.consume(TokenType.LEFT_PAREN,"Expect '(' after string access")
+        string = self.expression()
+        self.consume(TokenType.COMMA,"Expect ',' after string")
+        index = self.expression()
+        self.consume(TokenType.RIGHT_PAREN,"Expect ')' after index")
+        return StringAccess(string,index)
+    
+    def string_length(self):
+        self.consume(TokenType.LEFT_PAREN,"Expect '(' after string length")
+        string = self.expression()
+        self.consume(TokenType.RIGHT_PAREN,"Expect ')' after string")
+        return StringLength(string)
+
     def consume(self,type, message):
         if self.check(type) : return self.advance()
         self.dragon.hadError = True 

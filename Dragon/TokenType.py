@@ -33,6 +33,7 @@ class TokenType(Enum):
     DICT_ADD = 63 # for dictionary adding
     DICT_REMOVE = 64 # for dictionary removing
     DICT_FIND = 65 # for dictionary finding 
+
     
     # One or two character tokens.
     BANG = 11 
@@ -47,6 +48,9 @@ class TokenType(Enum):
     # Literals.
     IDENTIFIER = 19
     STRING = 20
+    STRING_ACCESS = 66
+    STRING_SLICE = 67
+    STRING_LENGTH = 68
     NUMBER = 21
     
     # Keywords.

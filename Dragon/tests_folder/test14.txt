@@ -1,0 +1,20 @@
+string a = "hello world";
+string b = "my name";
+
+string c = a+b;
+
+print(a);
+print(string_access(a,0));
+
+print(string_access(a,5));
+
+print(string_slice(a,1,8,2));
+print(string_slice(a,1,6));
+
+print(string_length(a));
+
+print(c);
+
+print(string_slice(c,4,17));
+print(string_length(c));
+print(string_access(c,11));

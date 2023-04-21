@@ -107,6 +107,31 @@ class DictFind:
     #     return AstPrinter.visit_dict_find_expr(self) 
 
 @dataclass
+class StringSlice:
+    string : 'Expr'
+    start : 'Expr'
+    end : 'Expr'
+    step: 'Expr'
+
+    # def accept(self):
+    #     return AstPrinter.visit_string_slice_expr(self)
+@dataclass
+class StringAccess:
+    string : 'Expr'
+    index : 'Expr'
+
+    # def accept(self):
+    #     return AstPrinter.visit_string_access_expr(self)
+
+@dataclass
+class StringLength:
+    string : 'Expr'
+
+    # def accept(self):
+    #     return AstPrinter.visit_string_length_expr(self)
+
+
+@dataclass
 class List: 
     elements: list['Expr'] 
     

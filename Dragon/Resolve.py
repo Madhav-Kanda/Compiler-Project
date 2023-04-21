@@ -97,6 +97,20 @@ class Resolve:
                     resolveExpression(expression.element)
                 case ListPop(list):
                     resolveExpression(expression.list)
+                
+                case StringAccess(string,index):
+                    resolveExpression(expression.string)
+                    resolveExpression(expression.index)
+                
+                case StringLength(string):
+                    resolveExpression(expression.string)
+                
+                case StringSlice(string,start,end):
+                    resolveExpression(expression.string)
+                    resolveExpression(expression.start)
+                    resolveExpression(expression.end)
+                    resolveExpression(expression.step)
+                    
                     
                     
                     

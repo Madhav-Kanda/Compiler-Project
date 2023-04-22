@@ -429,6 +429,16 @@ class Parser:
         
         if self.match([TokenType.NUMBER,TokenType.STRING]) : return Literal(self.previous().literal)
         if self.match([TokenType.IDENTIFIER]) : return Variable(self.previous())
+        if self.match([TokenType.NUMSTR]) : 
+            self.consume(TokenType.LEFT_PAREN,"expect (")
+            exp = self.expression()
+            self.consume(TokenType.RIGHT_PAREN,"exprct )")
+            return NumtoStr(exp)
+        if self.match([TokenType.STRNUM]) : 
+            self.consume(TokenType.LEFT_PAREN,"expect (")
+            exp = self.expression()
+            self.consume(TokenType.RIGHT_PAREN,"exprct )")
+            return StrtoNum(exp)
         
         if self.match([TokenType.LEFT_PAREN]) : 
             expr = self.expression()

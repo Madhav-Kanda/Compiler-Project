@@ -1,21 +1,3 @@
-var d = {
-    "name": "John",
-    "age": 30,
-    "city": "New York"
-};
+var num = "5.6";
 
-print(dict_length(d)); 
-
-dict_add(d, "country", "USA");
-print(d);
-
-dict_remove(d, "age");
-print(d);
-
-print(dict_access(d, "name"));
-
-dict_assign(d, "name", "Jack");
-print(d);
-
-print(dict_find(d, "city"));
-print(dict_find(d, "age"));
+print(str_to_num(num) + 6);

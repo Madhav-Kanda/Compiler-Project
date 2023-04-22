@@ -45,6 +45,8 @@ class Scanner :
                 "dict_add": TokenType.DICT_ADD,
                 "dict_remove": TokenType.DICT_REMOVE,
                 "dict_find": TokenType.DICT_FIND,
+                "num_to_str": TokenType.NUMSTR,
+                "str_to_num": TokenType.STRNUM
                 }  
     def __init__(self, source,dragon,tokens=[], start=0, current=0, line=1):
         self.source = source

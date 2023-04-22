@@ -11,6 +11,9 @@ class TypeError(Exception):
 class Parameter(Exception):
     pass
 
+class TypeCast(Exception):
+    pass
+
 class ReturnValue(Exception):
     def __init__(self,value):
         self.value = value
@@ -68,6 +71,25 @@ class Interpreter2:
     def evalExpression(self,expression):
         
         match expression:
+            case NumtoStr(value):
+                v = self.evalExpression(value)
+                if isinstance(v,int) or isinstance(v,float):
+                    return str(v)
+                else:
+                    self.dragon.error(-1, "type casting with restricted type")
+                    raise TypeCast
+            case StrtoNum(value):
+                v = self.evalExpression(value)
+                try:
+                    return int(v)
+                except:
+                    try: 
+                        return float(v)
+                    except:
+                        self.dragon.error(-1,"Not allowed")
+                        raise TypeCast
+                 
+                
             case Binary(left,operator,right):
                 return self.evalBinary(expression)  
             case Grouping(expression):

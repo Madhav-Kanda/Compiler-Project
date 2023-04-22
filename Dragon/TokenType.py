@@ -78,3 +78,5 @@ class TokenType(Enum):
     PRINT = 44
     DYNAMIC = 46
     UMINUS = 58 # for unary minus operator
+    NUMSTR = 99
+    STRNUM = 100

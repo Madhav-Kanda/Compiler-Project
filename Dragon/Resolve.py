@@ -110,6 +110,10 @@ class Resolve:
                     resolveExpression(expression.start)
                     resolveExpression(expression.end)
                     resolveExpression(expression.step)
+                case NumtoStr(value):
+                    resolveExpression(expression.value)
+                case StrtoNum(value):
+                    resolveExpression(expression.value)
                     
                     
                     

@@ -238,7 +238,15 @@ class Let:
 @dataclass
 class CompiledFunction:
     entry: int
+    
+@dataclass
+class NumtoStr:
+    value : 'Expr'  
+    
+@dataclass
+class StrtoNum:
+    value : 'Expr'
    
-Expr = Binary | Grouping | Literal | Unary| Let | CompiledFunction
+Expr = Binary | Grouping | Literal | Unary| Let | CompiledFunction | NumtoStr | StrtoNum
 
 from ASTPrinter import AstPrinter

@@ -34,7 +34,7 @@ class I:
         pass
 
     @dataclass
-    class REM:
+    class MODULO:
         pass
 
     @dataclass
@@ -134,6 +134,75 @@ class I:
         offset: Label
         func_id: int
 
+    @dataclass
+    class LIST:
+        length: int
+
+    @dataclass
+    class LISTLENGTH:
+        pass
+
+    @dataclass
+    class LISTISEMPTY:
+        pass
+
+    @dataclass
+    class LISTACCESS:
+        pass
+
+    @dataclass
+    class LISTASSIGN:
+        pass
+    
+    @dataclass
+    class LISTHEAD:
+        pass
+
+    @dataclass
+    class LISTTAIL:
+        pass
+
+    @dataclass
+    class LISTSLICE:
+        pass
+
+    @dataclass
+    class LISTAPPEND:
+        pass
+
+    @dataclass
+    class LISTPOP:
+        pass
+
+    @dataclass
+    class DICT:
+        length: int
+
+    @dataclass
+    class DICTLENGTH:
+        pass
+
+    @dataclass
+    class DICTACCESS:
+        pass
+
+    @dataclass
+    class DICTASSIGN:
+        pass
+
+    @dataclass
+    class DICTADD:
+        pass
+
+    @dataclass
+    class DICTREMOVE:
+        pass
+
+    @dataclass
+    class DICTFIND:
+        pass
+
+
 Instruction = (
       I.PUSH
     | I.AND
@@ -143,7 +212,7 @@ Instruction = (
     | I.MUL
     | I.DIV
     | I.QUOT
-    | I.REM
+    | I.MODULO
     | I.NOT
     | I.JMP
     | I.JMP_IF_FALSE
@@ -163,4 +232,23 @@ Instruction = (
     | I.PUSHFN
     | I.CALL
     | I.RETURN
+    | I.LIST 
+    | I.LISTLENGTH
+    | I.LISTISEMPTY
+    | I.LISTACCESS
+    | I.LISTASSIGN
+    | I.LISTHEAD
+    | I.LISTTAIL
+    | I.LISTSLICE
+    | I.LISTAPPEND
+    | I.LISTPOP
+    | I.DICT
+    | I.DICTLENGTH
+    | I.DICTACCESS
+    | I.DICTASSIGN
+    | I.DICTADD
+    | I.DICTREMOVE
+    | I.DICTFIND
+    | I.PRINT
+
 )

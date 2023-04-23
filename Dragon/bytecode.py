@@ -4,6 +4,7 @@ from Stmt import *
 from instructions import *
 from VM import *
 
+
 class ByteCode:
     insns: list[Instruction]
 
@@ -30,6 +31,10 @@ def print_bytecode(code: ByteCode):
                 print(f"{i:=4} {'PUSH':<15} value = {value}")
             case I.PUSHFN(Label(offset), func_id):
                 print(f"{i:=4} {'PUSHFN':<15} target = {offset}, id = {func_id} ")
+            case I.LIST(length):
+                print(f"{i:=4} {'LIST':<15} length = {length}")
+            case I.DICT(length):
+                print(f"{i:=4} {'DICT':<15} length = {length}")
             case _:
                 print(f"{i:=4} {insn.__class__.__name__:<15}")
 
@@ -42,10 +47,12 @@ def codegen(statements):
 
 
 def do_codegen (statements, code):
+    islist = 0
+    isdict = 0
     for statement in statements:
-        codegen_(statement, code)
+        codegen_(statement, code, islist = 0, isdict = 0)
 
-def codegen_(statement, code):
+def codegen_(statement, code, islist = 0, isdict = 0):
     ops = {
         TokenType.PLUS: I.ADD(),
         TokenType.MINUS: I.SUB(),
@@ -61,8 +68,11 @@ def codegen_(statement, code):
         TokenType.OR: I.OR(),
         TokenType.BANG: I.NOT(),
         TokenType.UMINUS: I.NEG(),
+        TokenType.MODULO: I.MODULO(),
+
 
     }
+
 
     match statement:
 
@@ -73,7 +83,9 @@ def codegen_(statement, code):
             codegen_(right, code)
             code.emit(ops[operator.type]) 
         case Literal(value):
-            code.emit(I.PUSH(value))    
+            if (islist == 1 or isdict == 1):
+                return value
+            code.emit(I.PUSH(value))
         case Variable(name):
             code.emit(I.LOAD(name.lexeme[1]))
         case Var(token, type, initializer):
@@ -116,7 +128,6 @@ def codegen_(statement, code):
             codegen_(body, code)
             code.emit(I.JMP(B))
             code.emit_label(E)
-            code.emit(I.PUSH(None))
         case Print(expression):
             codegen_(expression, code)
             code.emit(I.PRINT())
@@ -139,6 +150,86 @@ def codegen_(statement, code):
         case Return(keyword, value):
             codegen_(value, code)
             code.emit(I.RETURN())
+        
+        case List(elements):
+            copy_elements = []
+            for element in elements:
+                copy_elements.append(codegen_(element, code, islist = 1))
+            elements = copy_elements
+            code.emit(I.PUSH(elements))
+            code.emit(I.LIST(len(elements)))
+            islist = 0
+        case ListLength(list):
+            codegen_(list, code)
+            code.emit(I.LISTLENGTH())
+        case ListIsEmpty(list):
+            codegen_(list, code)
+            code.emit(I.LISTISEMPTY())
+        case ListAccess(list, index):
+            codegen_(list, code)
+            codegen_(index, code)
+            code.emit(I.LISTACCESS())
+        case ListAssign(list, index, value):
+            codegen_(list, code)
+            codegen_(index, code)
+            codegen_(value, code)
+            code.emit(I.LISTASSIGN())
+        case ListHead(list):
+            codegen_(list, code)
+            code.emit(I.LISTHEAD())
+        case ListTail(list):
+            codegen_(list, code)
+            code.emit(I.LISTTAIL())
+        case ListSlice(list, start, end, step):
+            codegen_(list, code)
+            codegen_(start, code)
+            codegen_(end, code)
+            if (step == None):
+                code.emit(I.PUSH(None))
+            else :
+                codegen_(step, code)
+            code.emit(I.LISTSLICE())
+        case ListAppend(list, value):
+            codegen_(list, code)
+            codegen_(value, code)
+            code.emit(I.LISTAPPEND())
+        case ListPop(list):
+            codegen_(list, code)
+            code.emit(I.LISTPOP())
+
+        case Dictionary(elements):
+            copy_elements = {}
+            for key, value in elements:
+                copy_elements[codegen_(key, code, isdict = 1)] = codegen_(value, code, isdict = 1)
+            elements = copy_elements
+            code.emit(I.PUSH(elements))
+            code.emit(I.DICT(len(elements)))
+            isdict = 0
+        case DictLength(dict):
+            codegen_(dict, code)
+            code.emit(I.DICTLENGTH())
+        case DictAccess(dict, key):
+            codegen_(dict, code)
+            codegen_(key, code)
+            code.emit(I.DICTACCESS())
+        case DictAssign(dict, key, value):
+            codegen_(dict, code)
+            codegen_(key, code)
+            codegen_(value, code)
+            code.emit(I.DICTASSIGN())
+        case DictAdd(dict, key, value):
+            codegen_(dict, code)
+            codegen_(key, code)
+            codegen_(value, code)
+            code.emit(I.DICTADD())
+        case DictRemove(dict, key):
+            codegen_(dict, code)
+            codegen_(key, code)
+            code.emit(I.DICTREMOVE())
+        case DictFind(dict, key):
+            codegen_(dict, code)
+            codegen_(key, code)
+            code.emit(I.DICTFIND())
         case _:
             pass
 

@@ -93,6 +93,11 @@ class VM:
                     left = self.data.pop()
                     self.data.append(left/right)
                     self.ip += 1
+                case I.MODULO():
+                    right = self.data.pop()
+                    left = self.data.pop()
+                    self.data.append(left%right)
+                    self.ip += 1
                 case I.EXP():
                     right = self.data.pop()
                     left = self.data.pop()
@@ -165,6 +170,98 @@ class VM:
                 case I.PRINT():
                     val = self.data.pop()
                     print(val)
+                    self.ip += 1
+                
+                case I.LIST():
+                    val = self.data.pop()
+                    self.data.append(val)
+                    self.ip += 1
+                case I.LISTLENGTH():
+                    val = self.data.pop()
+                    self.data.append(len(val))
+                    self.ip += 1
+                case I.LISTISEMPTY():
+                    val = self.data.pop()
+                    self.data.append(len(val) == 0)
+                    self.ip += 1
+                case I.LISTACCESS():
+                    index = self.data.pop()
+                    val = self.data.pop()
+                    self.data.append(val[index])
+                    self.ip += 1
+                case I.LISTASSIGN():
+                    index = self.data.pop()
+                    val = self.data.pop()
+                    list = self.data.pop()
+                    list[index] = val
+                    self.data.append(list)
+                    self.ip += 1
+                case I.LISTHEAD():
+                    val = self.data.pop()
+                    self.data.append(val[0])
+                    self.ip += 1
+                case I.LISTTAIL():
+                    val = self.data.pop()
+                    self.data.append(val[1:])
+                    self.ip += 1
+                case I.LISTSLICE():
+                    step = self.data.pop()                    
+                    end = self.data.pop()
+                    start = self.data.pop()
+                    val = self.data.pop()
+                    if (step == None):
+                        step = 1
+                    self.data.append(val[start:end:step])
+                    self.ip += 1
+                case I.LISTAPPEND():
+                    val = self.data.pop()
+                    list = self.data.pop()
+                    list.append(val)
+                    self.data.append(list)
+                    self.ip += 1
+                case I.LISTPOP():
+                    list = self.data.pop()
+                    list.pop()
+                    self.data.append(list)
+                    self.ip += 1
+
+                case I.DICT():
+                    val = self.data.pop()
+                    self.data.append(val)
+                    self.ip += 1
+                case I.DICTLENGTH():
+                    val = self.data.pop()
+                    self.data.append(len(val))
+                    self.ip += 1
+                case I.DICTACCESS():
+                    key = self.data.pop()
+                    val = self.data.pop()
+                    self.data.append(val[key])
+                    self.ip += 1
+                case I.DICTASSIGN():
+                    val = self.data.pop()
+                    key = self.data.pop()
+                    dict = self.data.pop()
+                    dict[key] = val
+                    self.data.append(dict)
+                    self.ip += 1
+                case I.DICTADD():
+                    val = self.data.pop()
+                    key = self.data.pop()
+                    dict = self.data.pop()
+                    dict[key] = val
+                    self.data.append(dict)
+                    self.ip += 1
+                case I.DICTREMOVE():
+                    key = self.data.pop()
+                    dict = self.data.pop()
+                    del dict[key]
+                    self.data.append(dict)
+                    self.ip += 1
+                case I.DICTFIND():
+                    key = self.data.pop()
+                    dict = self.data.pop()
+                    self.data.append(key in dict)
                     self.ip += 1
                 case I.HALT():
                     return

@@ -1,0 +1,20 @@
+// Madhav Kanda 
+
+int num = 9;
+int count = 0;
+for(int i=2; i<num; i=i+1)
+{
+    if(num%i == 0)
+    {
+        count = count + 1;
+    }
+}
+if(count==0)
+{
+    print("Prime number");
+}
+else
+{
+    print("Composite number");
+}        
+

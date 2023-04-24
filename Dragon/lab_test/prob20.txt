@@ -1,0 +1,25 @@
+// sahil agrawal
+
+
+var input = [1, 2, 97, -4, -5, 6];
+
+int i = 0;
+int finalans = -1000000;
+int len = length(input);
+
+while (i < len) {
+    int sum = 0;
+    int j = i;
+    while (j < len) {
+        sum = sum + access(input, j);
+        if (sum > finalans) {
+            finalans = sum;
+        }
+        j = j + 1;
+    }
+
+    i = i + 1;
+
+}
+
+print(finalans);

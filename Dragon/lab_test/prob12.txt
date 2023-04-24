@@ -1,0 +1,45 @@
+// sahil agrawal
+
+
+bool ispalindrome(string temp) {
+    int len2 = string_length(temp);
+    int p = len2 - 1;
+
+    var rev_temp = "";
+
+    while (p >= 0) {
+        rev_temp = rev_temp + string_access(temp, p);
+        p = p - 1;
+    }
+
+    if (rev_temp == temp) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+string input = "sahilabbad";
+
+string ans = "";
+
+int i = 0;
+int len = length(input);
+
+while (i < len) {
+    int j = i;
+    while (j < len) {
+        string temp = string_slice(input, i, j) + string_access(input, j);
+        bool check = ispalindrome(temp);
+        if (check == true) {
+            if (length(temp) > length(ans)) {
+                ans = temp;
+            }
+        }
+        j = j + 1;
+    }
+    i = i + 1;
+}
+
+print(ans);

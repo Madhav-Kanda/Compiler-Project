@@ -1,0 +1,22 @@
+// sahil agrawal
+
+
+var input = [1, 9, 4, 2];
+
+int inversions = 0;
+
+int i = 0;
+int len = length(input);
+
+while (i < len) {
+    int j = i;
+    while (j < len) {
+        if (access(input, j) < access(input, i)) {
+            inversions = inversions + 1;
+        }
+        j = j + 1;
+    }
+    i = i + 1;
+}
+
+print(inversions);

@@ -1,0 +1,50 @@
+// sahil agrawal
+
+
+var input = [1, 2, 6, 4];
+
+int i = 0;
+int len = length(input);
+bool flag = false;
+
+while (i < len) {
+    int j = i + 1;
+    while (j < len) {
+        int k = 0;
+        while (k < len) {
+            if (k != i and k != j) {
+                if (access(input, i) + access(input, j) == access(input, k)) {
+                    int num1 = access(input, i);
+                    int num2 = access(input, j);
+                    int num3 = access(input, k);
+                    print(num1);
+                    print(num2);
+                    print(num3);
+                    flag = true;
+                }
+            }
+            if (flag == true) {
+                k = len;
+            }
+            else {
+                k = k + 1;
+            }
+        }
+        if (flag == true) {
+            j = len;
+        }
+        else {
+            j = j + 1;
+        }
+    }
+    if (flag == true) {
+        i = len;
+    }
+    else {
+        i = i + 1;
+    }
+}
+
+if (flag == false) {
+    print("no such triplet found");
+}

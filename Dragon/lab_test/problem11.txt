@@ -1,0 +1,22 @@
+//Haikoo
+
+int edit(string a, string b){
+    int out = 0;
+    for(int i=0;i<string_length(a);i=i+1){
+        if(string_access(a,i)!=string_access(b,i)){
+            out = out+1;
+        }
+    }
+    return out;
+}
+
+var strings = ["cat", "cot", "pot","pat"];
+int max = 0;
+for(int i=0;i<length(strings);i=i+1){
+    for(int j=i;j<length(strings);j=j+1){
+        if(edit(access(strings,i), access(strings,j))>max){
+            max = edit(access(strings,i), access(strings,j));
+        }
+    }
+}
+print(max);

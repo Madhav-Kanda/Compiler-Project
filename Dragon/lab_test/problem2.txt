@@ -1,0 +1,18 @@
+// Haikoo
+string s = "hello world";
+int vowels = 0;
+for(int i=0;i<string_length(s);i=i+1){
+    if(string_access(s,i)=="a"){
+        vowels = vowels + 1;
+    }
+    if(string_access(s,i)=="e"){
+        vowels = vowels + 1;
+    }if(string_access(s,i)=="i"){
+        vowels = vowels + 1;
+    }if(string_access(s,i)=="o"){
+        vowels = vowels + 1;
+    }if(string_access(s,i)=="u"){
+        vowels = vowels + 1;
+    }
+}
+print(vowels);

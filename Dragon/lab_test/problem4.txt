@@ -1,0 +1,20 @@
+// Mihir Sutariya
+
+string x = user;
+
+var leng = string_length(x);
+
+if(leng==0){
+    print(0);
+}
+else{
+int count = 1;
+int a = 0;
+while(a < leng){
+    if(string_access(x,a)==" "){
+        count = count + 1;
+    }
+    a = a+1;
+}
+print count;
+}

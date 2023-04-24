@@ -50,26 +50,26 @@ class Dragon:
         statements = resolver.statements
 
 
-        bytecode = codegen(statements)
-        print_bytecode(bytecode)
+        # bytecode = codegen(statements)
+        # print_bytecode(bytecode)
 
-        with open ("bytecode_output.txt", "w") as f:
-            for i in bytecode.insns:
-                f.write(str(i) + "\n")
-            f.close()
+        # with open ("bytecode_output.txt", "w") as f:
+        #     for i in bytecode.insns:
+        #         f.write(str(i) + "\n")
+        #     f.close()
 
-        v = VM()
-        v.load(bytecode)
-        v.execute()
+        # v = VM()
+        # v.load(bytecode)
+        # v.execute()
         
         if self.hadError : 
             return
-        # try :
-        #     interpreter = Interpreter2(statements,self)
-        #     interpreter.interprete()
-        # except:
-        #     print("not working")
-        #     exit(-1)
+        try :
+            interpreter = Interpreter2(statements,self)
+            interpreter.interprete()
+        except:
+            print("not working")
+            exit(-1)
         # interpreter = Interpreter2(statements,self)
         # interpreter.interprete()
         

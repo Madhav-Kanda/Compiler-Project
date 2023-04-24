@@ -2,6 +2,14 @@
 
 <img src="img/dragon.png" width=30% height=30%>
 
+## **Project Overview**
+
+Our team is building a compiler from scratch using the Python programming language. The goal of this project is to create a full-featured compiler that can handle the complete compilation process, including lexical analysis, parsing, semantic analysis, and optimization. This compiler project will serve as a comprehensive learning experience for our team, as we will be implementing all the features from scratch. We will be utilizing the latest techniques in compiler design and construction, ensuring that our compiler is efficient, scalable, and easy to use.
+
+The target language for our compiler will be a high-level programming language in our project we are calling it dragon, and we are evaluating with and without bytecode generation. Output given by parser can be run on variety of platforms. Our compiler will support advanced features such as error handling, making it suitable for both academic and commercial use.
+
+In addition to its technical capabilities, our compiler will also have a user-friendly interface, allowing even non-technical users to easily compile their code and run their programs. This will make our compiler accessible to a wider range of users, and provide an excellent learning opportunity for anyone interested in compilers and computer languages. Our team is committed to delivering a high-quality product, and we are confident that our compiler will meet the needs of its users.
+
 ## **Getting Started**
 
 ### **Step 1: Clone the repository**
@@ -30,13 +38,19 @@ To test the various aspects of the language and the compiler, we have provided a
 python automated_test_runner.py
 ```
 
-## **Project Overview**
+### ** Installing compiler as a command line tool**
 
-Our team is building a compiler from scratch using the Python programming language. The goal of this project is to create a full-featured compiler that can handle the complete compilation process, including lexical analysis, parsing, semantic analysis, and optimization. This compiler project will serve as a comprehensive learning experience for our team, as we will be implementing all the features from scratch. We will be utilizing the latest techniques in compiler design and construction, ensuring that our compiler is efficient, scalable, and easy to use.
+To do this you just need to add this repository to user environment path and after that you can invoke compiler by typing dragon for example
 
-The target language for our compiler will be a high-level programming language in our project we are calling it dragon, and we are evaluating with and without bytecode generation. Output given by parser can be run on variety of platforms. Our compiler will support advanced features such as error handling, making it suitable for both academic and commercial use.
+```
+dragon test.txt
+```
 
-In addition to its technical capabilities, our compiler will also have a user-friendly interface, allowing even non-technical users to easily compile their code and run their programs. This will make our compiler accessible to a wider range of users, and provide an excellent learning opportunity for anyone interested in compilers and computer languages. Our team is committed to delivering a high-quality product, and we are confident that our compiler will meet the needs of its users.
+## **Checklist for our language**
+
+[Checklist](docs/Checklist.md)
+
+
 
 ## **Language specifications**
 

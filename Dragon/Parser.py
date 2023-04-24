@@ -439,6 +439,8 @@ class Parser:
             exp = self.expression()
             self.consume(TokenType.RIGHT_PAREN,"exprct )")
             return StrtoNum(exp)
+        if self.match([TokenType.INP]):
+            return InputCust()
         
         if self.match([TokenType.LEFT_PAREN]) : 
             expr = self.expression()

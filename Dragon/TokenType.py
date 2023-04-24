@@ -80,3 +80,4 @@ class TokenType(Enum):
     UMINUS = 58 # for unary minus operator
     NUMSTR = 99
     STRNUM = 100
+    INP = 101

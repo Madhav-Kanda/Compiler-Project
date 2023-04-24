@@ -246,7 +246,11 @@ class NumtoStr:
 @dataclass
 class StrtoNum:
     value : 'Expr'
+    
+@dataclass
+class InputCust:
+    pass    
    
-Expr = Binary | Grouping | Literal | Unary| Let | CompiledFunction | NumtoStr | StrtoNum
+Expr = Binary | Grouping | Literal | Unary| Let | CompiledFunction | NumtoStr | StrtoNum | InputCust
 
 from ASTPrinter import AstPrinter

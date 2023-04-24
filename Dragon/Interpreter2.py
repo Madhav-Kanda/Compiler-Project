@@ -71,6 +71,8 @@ class Interpreter2:
     def evalExpression(self,expression):
         
         match expression:
+            case InputCust():
+                return input()
             case NumtoStr(value):
                 v = self.evalExpression(value)
                 if isinstance(v,int) or isinstance(v,float):

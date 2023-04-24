@@ -1,0 +1,16 @@
+// sahil agrawal
+
+
+var input = "sahil";
+
+int len = string_length(input);
+int i = len - 1;
+
+var output = "";
+
+while (i >= 0) {
+    output = output + string_access(input, i);
+    i = i - 1;
+}
+
+print(output);

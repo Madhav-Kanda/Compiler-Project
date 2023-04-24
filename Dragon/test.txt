@@ -1,3 +1,0 @@
-var num = user;
-
-print(str_to_num(num) + 6);

@@ -1,0 +1,15 @@
+// saatvik rao 
+
+// inputs
+int num1 = 5;
+int num2 = 25;
+
+int ans = 1;
+
+for (int i = 1; i <= num1; i = i + 1) {
+    if (num1 % i == 0 and num2 % i == 0) {
+        ans = i;
+    }
+}
+
+print(ans);

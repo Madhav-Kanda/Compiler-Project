@@ -1,0 +1,12 @@
+// saatvik rao
+
+// input list
+var inp = [1, 2, 3, 4];
+
+int sum = 0; 
+
+for (int i = 0; i < length(inp); i = i + 1) {
+    sum = sum + access(inp, i);
+}
+
+print(sum);

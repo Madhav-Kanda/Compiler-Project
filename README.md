@@ -1,7 +1,5 @@
 # **Compiler-Project**
 
-<img src="img/dragon.png" width=30% height=30%>
-
 ## **Project Overview**
 
 Our team is building a compiler from scratch using the Python programming language. The goal of this project is to create a full-featured compiler that can handle the complete compilation process, including lexical analysis, parsing, semantic analysis, and optimization. This compiler project will serve as a comprehensive learning experience for our team, as we will be implementing all the features from scratch. We will be utilizing the latest techniques in compiler design and construction, ensuring that our compiler is efficient, scalable, and easy to use.

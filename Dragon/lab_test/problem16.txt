@@ -6,12 +6,10 @@ int partition(var data, int left, int right){
     int j = left;
     while(j<right){
         if(access(data,j)<=x){
-            print(data);
             int temp = access(data, j);
             assign(data, j, access(data,i));
             assign(data,i,temp);
             i= i+1;
-            print(data);
         }
         j = j+1;
     }
@@ -24,11 +22,11 @@ int partition(var data, int left, int right){
 int reccurr(var data, int left, int right,int k){
     if(k>0 and k<= right-left+1){
         int index = partition(data, left,right);
-        if(index-1 == k-1){
+        if(index-left == k-1){
             return access(data, index);
         }
 
-        if(index-1 > k-1){
+        if(index-left > k-1){
             return reccurr(data, left, index-1, k);
         }
         return reccurr(data, index+1, right, k - index+left-1);

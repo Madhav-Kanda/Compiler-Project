@@ -1,0 +1,11 @@
+// Mihir
+int num = str_to_num(user);
+
+string x = "";
+
+while(num!=0){
+    string character = num_to_str(num%2);
+    num = num/2;
+    x = character + x;
+}
+print(x);

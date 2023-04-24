@@ -1,0 +1,58 @@
+// saatvik rao, sahil agrawal 
+
+var dict = {
+    "uppercase": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+    "lowercase": "abcdefghijklmnopqrstuvwxyz",
+    "digits": "0123456789"
+};
+
+var input = [-1, -1, -1, -1, -1, -1, -1, -1];
+
+int i = 0;
+while (i < 8) {
+    int random_number = -1;
+    int X = 42;
+    int m = 62;
+    int a = 5;
+    int c = 29;
+    assign(input, 0, X);
+    if (i == 0) {
+        i = i + 1;
+    }
+    else {
+        random_number = (access(input, i - 1)*a + c) % m;
+        assign(input, i, random_number);
+        i = i + 1;
+    }
+}
+
+string ans = "";
+
+int v1 = (access(input, 0) + 100) % 26; 
+int v2 = (access(input, 1) + 100) % 26 + 26;
+int v3 = ((access(input, 2) + 100) % 26) % 10 + 52; 
+
+assign(input, 0, v1);
+assign(input, 1, v2);
+assign(input, 2, v3);
+
+int j = 0;
+while (j < 8) {
+    int val = access(input, j); 
+
+    if (val < 26){
+        string temp = dict_access(dict, "uppercase");
+        ans = ans + string_access(temp, val); 
+    }
+    if (val >= 26 and val < 52) {
+        string temp2 = dict_access(dict, "lowercase");
+        ans = ans + string_access(temp2, val - 26);
+    }
+    if (val >= 52) {
+        string temp3 = dict_access(dict, "digits");
+        ans = ans + string_access(temp3, val - 52);
+    }
+    j = j + 1;
+}
+
+print(ans);
